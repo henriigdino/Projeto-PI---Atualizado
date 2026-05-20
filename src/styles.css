@@ -14,6 +14,15 @@
   --glow-yellow: 0 0 10px rgba(255, 222, 3, 0.4);
   --glow-pink: 0 0 10px rgba(255, 0, 110, 0.4);
   --font-pixel: 'Press Start 2P', cursive;
+  --font-mono: 'Courier New', 'Consolas', 'Lucida Console', monospace;
+  
+  --font-scale-xs: 0.9rem;
+  --font-scale-sm: 1rem;
+  --font-scale-base: 1.1rem;
+  --font-scale-md: 1.35rem;
+  --font-scale-lg: 1.7rem;
+  --font-scale-xl: 2.3rem;
+  --font-scale-2xl: 3rem;
 }
 
 *, *::before, *::after {
@@ -31,8 +40,8 @@ body {
   min-height: 100vh;
   font-family: var(--font-pixel);
   color: var(--text-primary);
-  font-size: 10px;
-  line-height: 1.6;
+  font-size: var(--font-scale-base);
+  line-height: 1.7;
   overflow-x: hidden;
 }
 
@@ -41,16 +50,16 @@ body::before {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background:
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
   background-size: 100% 4px, 3px 100%;
   pointer-events: none;
   z-index: 9999;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;  /* Aumentado de 8px */
+  height: 12px; /* Aumentado de 8px */
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
@@ -75,6 +84,7 @@ a {
   color: var(--neon-blue);
   text-decoration: none;
   transition: all 0.2s;
+  font-size: var(--font-scale-sm); /* Adicionado */
 }
 a:hover {
   color: var(--pacman-yellow);
@@ -86,19 +96,21 @@ h1, h2, h3, h4 {
   color: var(--pacman-yellow);
   text-shadow: 2px 2px 0 #000, 0 0 20px rgba(255, 222, 3, 0.3);
   letter-spacing: 1px;
+  margin-bottom: 1rem;
 }
 
-h1 { font-size: 14px; }
-h2 { font-size: 12px; }
-h3 { font-size: 10px; }
+h1 { font-size: var(--font-scale-2xl); }
+h2 { font-size: var(--font-scale-xl); }
+h3 { font-size: var(--font-scale-lg); }
+h4 { font-size: var(--font-scale-md); }
 
 button, .btn {
   font-family: var(--font-pixel);
-  font-size: 9px;
+  font-size: var(--font-scale-xs);
   background: var(--bg-secondary);
   color: var(--neon-blue);
   border: 2px solid var(--neon-blue);
-  padding: 8px 16px;
+  padding: 12px 24px;
   cursor: pointer;
   text-transform: uppercase;
   transition: all 0.2s;
@@ -118,11 +130,11 @@ button:active {
 
 input, textarea, select {
   font-family: var(--font-pixel);
-  font-size: 9px;
+  font-size: var(--font-scale-xs);
   background: var(--bg-primary);
   border: 2px solid var(--bg-tertiary);
   color: var(--text-primary);
-  padding: 8px 12px;
+  padding: 12px 16px;
   outline: none;
   transition: all 0.2s;
   width: 100%;
@@ -134,17 +146,19 @@ input:focus, textarea:focus, select:focus {
 }
 
 label {
-  font-size: 9px;
+  font-family: var(--font-pixel);
+  font-size: var(--font-scale-xs);
   color: var(--neon-blue);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
+  display: block;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 8px;
+  font-size: var(--font-scale-sm);
   background: var(--bg-secondary);
   border: 2px solid var(--bg-tertiary);
 }
@@ -153,19 +167,22 @@ thead {
   border-bottom: 2px solid var(--neon-blue);
 }
 th {
+  font-family: var(--font-mono);
   color: var(--neon-blue);
-  padding: 10px 12px;
+  padding: 16px 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 8px;
+  font-size: var(--font-scale-sm);
   text-align: left;
   border-right: 1px solid rgba(0, 242, 255, 0.1);
 }
 th:last-child { border-right: none; }
 td {
-  padding: 8px 12px;
+  font-family: var(--font-mono);
+  padding: 14px 20px;
   border-bottom: 1px solid rgba(0, 242, 255, 0.08);
   color: var(--text-primary);
+  font-size: var(--font-scale-sm);
 }
 tbody tr {
   transition: all 0.2s;
@@ -175,6 +192,15 @@ tbody tr:hover {
 }
 tbody tr:nth-child(even) {
   background: rgba(0, 242, 255, 0.02);
+}
+
+.display-font {
+  font-family: var(--font-pixel);
+  letter-spacing: 1px;
+}
+
+.detail-text {
+  font-family: var(--font-mono);
 }
 
 .neon-text {
@@ -196,7 +222,7 @@ tbody tr:nth-child(even) {
 .card {
   background: var(--bg-secondary);
   border: 2px solid var(--bg-tertiary);
-  padding: 16px;
+  padding: 24px;  /* Aumentado de 16px */
   position: relative;
   transition: all 0.3s;
 }
@@ -220,25 +246,26 @@ tbody tr:nth-child(even) {
 .panel {
   background: var(--bg-secondary);
   border: 2px solid var(--bg-tertiary);
-  padding: 16px;
+  padding: 24px;  /* Aumentado de 16px */
   position: relative;
 }
 .panel-title {
-  font-size: 8px;
+  font-family: var(--font-pixel);
+  font-size: var(--font-scale-sm);
   color: var(--neon-blue);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
   border-bottom: 1px solid rgba(0, 242, 255, 0.2);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 .panel-title::before {
   content: '■';
   color: var(--neon-blue);
-  font-size: 6px;
+  font-size: var(--font-scale-md);
 }
 
 .neon-border {
@@ -255,19 +282,19 @@ tbody tr:nth-child(even) {
     transparent 4px,
     transparent 8px
   );
-  margin: 16px 0;
+  margin: 32px 0;
 }
 
 .status-dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 10px;  /* Aumentado de 6px */
+  height: 10px; /* Aumentado de 6px */
   border-radius: 0;
-  margin-right: 4px;
+  margin-right: 6px;
   animation: blink 1s step-end infinite;
 }
-.status-dot.online { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
-.status-dot.offline { background: #ff3333; box-shadow: 0 0 6px #ff3333; }
+.status-dot.online { background: #00ff88; box-shadow: 0 0 8px #00ff88; }
+.status-dot.offline { background: #ff3333; box-shadow: 0 0 8px #ff3333; }
 
 @keyframes blink {
   50% { opacity: 0; }
@@ -297,7 +324,45 @@ tbody tr:nth-child(even) {
 }
 
 @media (max-width: 768px) {
-  body { font-size: 8px; }
-  h1 { font-size: 10px; }
-  h2 { font-size: 9px; }
+  :root {
+    --font-scale-xs: 0.85rem;
+    --font-scale-sm: 0.95rem;
+    --font-scale-base: 1rem;
+    --font-scale-md: 1.2rem;
+    --font-scale-lg: 1.5rem;
+    --font-scale-xl: 1.9rem;
+    --font-scale-2xl: 2.4rem;
+  }
+  
+  body { 
+    font-size: var(--font-scale-base);
+  }
+  
+  button, .btn, input, textarea, select, label, th, td {
+    padding: 10px 14px;
+  }
+  
+  .card, .panel {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-scale-xs: 0.8rem;
+    --font-scale-sm: 0.9rem;
+    --font-scale-base: 0.95rem;
+    --font-scale-md: 1.1rem;
+    --font-scale-lg: 1.3rem;
+    --font-scale-xl: 1.6rem;
+    --font-scale-2xl: 2rem;
+  }
+  
+  button, .btn, input, textarea, select, label, th, td {
+    padding: 8px 12px;
+  }
+  
+  .card, .panel {
+    padding: 16px;
+  }
 }

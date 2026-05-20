@@ -13,7 +13,7 @@ import { ToastService } from '../../../core/services/toast.service';
   imports: [CommonModule, FormsModule, RouterModule],
 })
 export class RemoverProdutoComponent {
-  idExcluir: string = '';
+  codigoExcluir: string = '';
   erroMensagem: string = '';
   private toastService = inject(ToastService);
 
@@ -24,13 +24,23 @@ export class RemoverProdutoComponent {
 
   removerItem(): void {
     this.erroMensagem = '';
-    if (this.idExcluir) {
-      this.service.excluir(this.idExcluir).subscribe({
-        next: () => {
-          this.toastService.success('Produto removido com sucesso!');
-          this.router.navigate(['../listar']);
+    if (this.codigoExcluir) {
+      this.service.listar().subscribe({
+        next: (dados) => {
+          const item = dados.find(i => i.codigo === this.codigoExcluir || i.id === this.codigoExcluir);
+          if (item) {
+            this.service.excluir(item.id).subscribe({
+              next: () => {
+                this.toastService.success('Produto removido com sucesso!');
+                this.router.navigate(['../listar']);
+              },
+              error: () => this.erroMensagem = 'Erro ao excluir.'
+            });
+          } else {
+            this.erroMensagem = 'Produto não encontrado. Verifique o código.';
+          }
         },
-        error: () => this.erroMensagem = 'Erro ao excluir. Verifique se o ID está correto.'
+        error: () => this.erroMensagem = 'Erro ao conectar com o banco.'
       });
     }
   }

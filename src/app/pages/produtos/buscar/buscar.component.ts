@@ -12,7 +12,7 @@ import { ItemAcervo } from '../../../core/types/types';
   imports: [CommonModule, FormsModule],
 })
 export class BuscarProdutoComponent {
-  idBusca: string = '';
+  codigoBusca: string = '';
   ItemEncontrado: ItemAcervo | null = null;
   erroBusca: string = '';
 
@@ -22,11 +22,12 @@ export class BuscarProdutoComponent {
     this.erroBusca = '';
     this.ItemEncontrado = null;
 
-    if (this.idBusca !== '') {
-      this.service.buscarPorId(this.idBusca).subscribe({
-        next: (res) => {
-          if (res) {
-            this.ItemEncontrado = res;
+    if (this.codigoBusca !== '') {
+      this.service.listar().subscribe({
+        next: (dados) => {
+          const encontrado = dados.find(i => i.codigo === this.codigoBusca || i.id === this.codigoBusca);
+          if (encontrado) {
+            this.ItemEncontrado = encontrado;
           } else {
             this.erroBusca = 'Produto não encontrado.';
           }

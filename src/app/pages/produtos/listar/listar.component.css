@@ -4,19 +4,19 @@
 
 .list-header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
 }
-.list-count { font-size: 7px; letter-spacing: 1px; }
+.list-count { font-family: var(--font-mono); font-size: var(--font-scale-base); letter-spacing: 1px; }
 
 .produtos-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 10px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
 }
 
 .produto-card {
   background: var(--bg-secondary); border: 2px solid var(--bg-tertiary);
-  padding: 14px; position: relative; overflow: hidden;
-  transition: all 0.3s; display: flex; flex-direction: column; gap: 10px;
+  padding: 20px; position: relative; overflow: hidden;
+  transition: all 0.3s; display: flex; flex-direction: column; gap: 14px;
 }
 .produto-card:hover {
   border-color: var(--neon-blue); box-shadow: var(--glow-blue);
@@ -38,7 +38,7 @@
 
 .produto-thumb {
   width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-  font-size: 22px; background: var(--bg-primary); border: 2px solid var(--bg-tertiary);
+  font-size: 26px; background: var(--bg-primary); border: 2px solid var(--bg-tertiary);
   flex-shrink: 0; position: relative; overflow: hidden;
 }
 .produto-thumb::after {
@@ -51,28 +51,44 @@
 .produto-thumb[data-plataforma*="Xbox"] { border-color: #107c10; }
 
 .produto-info { flex: 1; min-width: 0; }
-.produto-titulo { font-size: 8px; color: var(--text-primary); display: block; margin-bottom: 4px; }
-.produto-plataforma { font-size: 7px; color: var(--neon-blue); display: block; margin-bottom: 2px; }
-.produto-ano { font-size: 6px; color: var(--text-dim); }
+.produto-titulo { font-size: var(--font-scale-base); color: var(--text-primary); display: block; margin-bottom: 6px; }
+.produto-plataforma { font-family: var(--font-mono); font-size: var(--font-scale-sm); color: var(--neon-blue); display: block; margin-bottom: 4px; }
+.produto-ano { font-family: var(--font-mono); font-size: var(--font-scale-xs); color: var(--text-dim); }
 
 .produto-status-badge {
-  font-size: 6px; padding: 2px 8px; border: 1px solid; letter-spacing: 1px;
+  font-family: var(--font-mono);
+  font-size: var(--font-scale-xs); padding: 6px 12px; border: 1px solid; letter-spacing: 1px;
   white-space: nowrap;
+  color: var(--neon-blue); border-color: var(--neon-blue);
 }
 .status-alugado .produto-status-badge { border-color: var(--neon-pink); color: var(--neon-pink); }
 .status-disponivel .produto-status-badge { border-color: var(--neon-blue); color: var(--neon-blue); }
 .status-manutencao .produto-status-badge { border-color: var(--pacman-yellow); color: var(--pacman-yellow); }
 .status-raro .produto-status-badge { border-color: var(--neon-purple); color: var(--neon-purple); }
+.status-vendido .produto-status-badge { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }
 
 .produto-details {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 6px;
+  display: grid; grid-template-columns: 1fr; gap: 8px;
 }
-.produto-detail { display: flex; justify-content: space-between; color: var(--text-dim); }
-.produto-detail-value { color: var(--text-primary); }
+.produto-detail {
+  display: flex; gap: 4px; color: var(--text-dim);
+  justify-content: space-between;
+}
+.produto-detail-value {
+  font-family: var(--font-mono);
+  color: var(--pacman-yellow); white-space: nowrap;
+  text-shadow: 0 0 8px rgba(255, 222, 3, 0.4);
+}
 
 .produto-actions {
-  display: flex; gap: 6px; margin-top: auto; padding-top: 8px;
+  display: flex; gap: 10px; margin-top: auto; padding-top: 14px;
   border-top: 1px solid rgba(0, 242, 255, 0.08);
+}
+.produto-actions .btn-editar,
+.produto-actions .btn-excluir {
+  font-family: var(--font-pixel);
+  flex: 1; text-align: center; font-size: var(--font-scale-xs);
+  padding: 10px 12px; min-width: 0;
 }
 
 @media (max-width: 600px) {

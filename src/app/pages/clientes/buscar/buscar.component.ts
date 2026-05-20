@@ -12,7 +12,7 @@ import { ClientesService } from '../../../core/services/clientes.service';
   imports: [CommonModule, FormsModule],
 })
 export class BuscarClienteComponent {
-  idBusca: string = '';
+  codigoBusca: string = '';
   clienteEncontrado: Cliente | null = null;
   erroBusca: string = '';
 
@@ -22,11 +22,12 @@ export class BuscarClienteComponent {
     this.erroBusca = '';
     this.clienteEncontrado = null;
 
-    if (this.idBusca !== '') {
-      this.service.buscarPorId(this.idBusca).subscribe({
-        next: (res: Cliente | undefined) => {
-          if (res) {
-            this.clienteEncontrado = res;
+    if (this.codigoBusca !== '') {
+      this.service.listar().subscribe({
+        next: (dados) => {
+          const encontrado = dados.find(c => c.codigo === this.codigoBusca || c.id === this.codigoBusca);
+          if (encontrado) {
+            this.clienteEncontrado = encontrado;
           } else {
             this.erroBusca = 'Cliente não encontrado.';
           }

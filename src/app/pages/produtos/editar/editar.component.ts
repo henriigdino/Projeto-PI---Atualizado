@@ -28,7 +28,7 @@ export class EditarProdutoComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      id: [{ value: '', disabled: true }],
+      codigo: [''],
       titulo: [''], plataforma: [''], tipoItem: [''],
       anoLancamento: [''], condicao: [''], status: ['']
     });
@@ -40,8 +40,22 @@ export class EditarProdutoComponent implements OnInit {
     this.erroBusca = '';
     if (this.idItem) {
       this.service.buscarPorId(this.idItem).subscribe({
-        next: (dados) => dados ? this.form.patchValue(dados) : this.erroBusca = 'Produto não encontrado.',
-        error: () => this.erroBusca = 'Produto não encontrado. Verifique o ID.'
+        next: (dados) => {
+          if (dados) {
+            this.form.patchValue(dados);
+          } else {
+            this.service.listar().subscribe(lista => {
+              const porCodigo = lista.find(i => i.codigo === this.idItem);
+              if (porCodigo) {
+                this.idItem = porCodigo.id;
+                this.form.patchValue(porCodigo);
+              } else {
+                this.erroBusca = 'Produto não encontrado.';
+              }
+            });
+          }
+        },
+        error: () => this.erroBusca = 'Produto não encontrado. Verifique o código.'
       });
     }
   }

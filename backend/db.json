@@ -1,31 +1,31 @@
 {
   "acervo": [
     {
-      "id": "002",
-      "titulo": "Super Metroip",
+      "id": "l5BnUDfhHoY",
+      "titulo": "Chrono Trigger",
+      "plataforma": "PS1",
+      "tipoItem": "Jogo",
+      "anoLancamento": "1996",
+      "condicao": "Usado",
+      "status": "Vendido"
+    },
+    {
+      "id": "runxOOrmfKQ",
+      "titulo": "Super Mario World",
       "plataforma": "Super Nintendo",
-      "tipoItem": "Cartucho",
-      "anoLancamento": "1994",
-      "condicao": "Perfeito",
-      "status": "Alugado"
+      "tipoItem": "Jogo",
+      "anoLancamento": "1990",
+      "condicao": "Usado",
+      "status": "A venda"
     },
     {
-      "id": "003",
-      "titulo": "Sonic the Hedgehog",
-      "plataforma": "Mega Drive",
-      "tipoItem": "Cartucho",
-      "anoLancamento": "1991",
-      "condicao": "Com marcas de uso",
-      "status": "Disponível"
-    },
-    {
-      "id": "004",
-      "titulo": "GameBoy Classic",
-      "plataforma": "GameBoy",
-      "tipoItem": "Console",
-      "anoLancamento": "1989",
-      "condicao": "Raro",
-      "status": "Em Manutenção"
+      "titulo": "The Legend of Zelda",
+      "plataforma": "NES",
+      "tipoItem": "Jogo",
+      "anoLancamento": "1986",
+      "condicao": "Lacrado",
+      "status": "Vendido",
+      "id": "rCCDvoJ7IfM"
     }
   ],
   "clientes": [
@@ -46,6 +46,17 @@
       "ranking": "Colecionador",
       "itemAlugado": "001",
       "dataDevolucao": "2026-05-25"
+    },
+    {
+      "codigo": "",
+      "nomeCompleto": "Henrique Rodrigues Galdino",
+      "telefone": "123456",
+      "pontosXP": "5",
+      "ranking": "Colecionador",
+      "itemAlugado": "004",
+      "dataDevolucao": "2006-05-26",
+      "id": "sjxlBtuw838"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

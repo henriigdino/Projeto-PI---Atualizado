@@ -17,7 +17,7 @@ export class AdicionarClienteComponent {
   private toastService = inject(ToastService);
 
   cliente: Cliente = {
-    id: '', nomeCompleto: '', telefone: '',
+    id: '', codigo: '', nomeCompleto: '', telefone: '',
     pontosXP: '', ranking: '', itemAlugado: '', dataDevolucao: ''
   };
 
@@ -27,13 +27,14 @@ export class AdicionarClienteComponent {
   ) { }
 
   submeter() {
+    this.cliente.id = crypto.randomUUID();
     this.service.incluir(this.cliente).subscribe({
       next: () => {
         this.toastService.success('Cliente cadastrado com sucesso!');
         this.router.navigate(['../listar']);
       },
       error: () => {
-        this.toastService.error('Erro ao cadastrar. Verifique se o ID já existe.');
+        this.toastService.error('Erro ao cadastrar. Verifique a conexão com o banco.');
       }
     });
   }

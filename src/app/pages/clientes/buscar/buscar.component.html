@@ -2,8 +2,8 @@
   <h2>■ BUSCAR CLIENTE</h2>
 
   <form (ngSubmit)="buscarCliente()" class="busca-form">
-    <label for="input-id">ID DO CLIENTE:</label>
-    <input type="text" id="input-id" name="idBusca" [(ngModel)]="idBusca" required />
+    <label for="input-id">CÓDIGO DO CLIENTE:</label>
+    <input type="text" id="input-id" name="codigoBusca" [(ngModel)]="codigoBusca" required />
     <button type="submit" class="btn">BUSCAR</button>
   </form>
 
@@ -12,8 +12,8 @@
       <h3 class="neon-text">CLIENTE ENCONTRADO</h3>
       <div class="result-grid">
         <div class="result-field">
-          <span class="result-field-label">ID</span>
-          <span class="result-field-value">{{ clienteEncontrado.id }}</span>
+          <span class="result-field-label">CÓDIGO</span>
+          <span class="result-field-value">{{ clienteEncontrado.codigo || clienteEncontrado.id }}</span>
         </div>
         <div class="result-field">
           <span class="result-field-label">Nome</span>

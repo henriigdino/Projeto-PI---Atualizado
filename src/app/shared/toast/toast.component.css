@@ -15,7 +15,7 @@
   gap: 10px;
   padding: 10px 14px;
   font-family: var(--font-pixel);
-  font-size: 8px;
+  font-size: 10px;
   color: var(--text-primary);
   border: 2px solid;
   animation: toast-slide 0.3s ease-out;
@@ -70,9 +70,9 @@
   background: none;
   border: none;
   color: var(--text-dim);
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
-  padding: 2px 4px;
+  padding: 2px 6px;
   box-shadow: none;
 }
 

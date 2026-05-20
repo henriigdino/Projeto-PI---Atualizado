@@ -10,6 +10,7 @@
            [class.status-alugado]="f.status && f.status.toLowerCase().includes('alugado')"
            [class.status-disponivel]="f.status && f.status.toLowerCase().includes('dispon')"
            [class.status-manutencao]="f.status && f.status.toLowerCase().includes('manuten')"
+           [class.status-vendido]="f.status && f.status.toLowerCase().includes('vendido')"
            [class.status-raro]="f.condicao && f.condicao.toLowerCase().includes('raro')">
         <div class="produto-card-top">
           <div class="produto-thumb" [attr.data-plataforma]="f.plataforma">
@@ -31,7 +32,11 @@
           </div>
           <div class="produto-detail">
             <span>CONDIÇÃO</span>
-            <span class="produto-detail-value" [style.color]="f.condicao && f.condicao.toLowerCase().includes('raro') ? 'var(--neon-purple)' : 'var(--text-primary)'">{{ f.condicao }}</span>
+            <span class="produto-detail-value">{{ f.condicao }}</span>
+          </div>
+          <div class="produto-detail">
+            <span>CÓDIGO</span>
+            <span class="produto-detail-value">{{ f.codigo || f.id }}</span>
           </div>
         </div>
 

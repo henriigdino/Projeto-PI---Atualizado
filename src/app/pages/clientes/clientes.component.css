@@ -4,20 +4,22 @@
 }
 
 .page-header {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 .page-title {
-  font-size: 12px;
-  margin: 0 0 4px 0;
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  margin: 0 0 6px 0;
   color: var(--pacman-yellow);
   text-shadow: 2px 2px 0 #000, 0 0 20px rgba(255, 222, 3, 0.3);
   letter-spacing: 2px;
 }
 
 .page-subtitle {
-  font-size: 7px;
+  font-family: var(--font-mono);
+  font-size: var(--font-scale-sm);
   letter-spacing: 2px;
   margin: 0;
 }
@@ -35,9 +37,9 @@
 .submenu-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  font-size: 8px;
+  gap: 10px;
+  padding: 12px 24px;
+  font-size: var(--font-scale-sm);
   color: var(--text-dim);
   text-decoration: none;
   border: 1px solid transparent;
@@ -59,7 +61,8 @@
 }
 
 .submenu-icon {
-  font-size: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--font-scale-xs);
 }
 
 .submenu-item-active .submenu-icon {
@@ -68,7 +71,7 @@
 
 .page-content {
   min-height: 300px;
-  padding: 20px;
+  padding: 24px;
 }
 
 @media (max-width: 600px) {

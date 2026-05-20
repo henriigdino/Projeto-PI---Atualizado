@@ -13,7 +13,7 @@ import { ToastService } from '../../../core/services/toast.service';
   imports: [CommonModule, FormsModule, RouterModule],
 })
 export class RemoverClienteComponent {
-  idExcluir: string = '';
+  codigoExcluir: string = '';
   erroMensagem: string = '';
   private toastService = inject(ToastService);
 
@@ -24,13 +24,23 @@ export class RemoverClienteComponent {
 
   removerCliente(): void {
     this.erroMensagem = '';
-    if (this.idExcluir) {
-      this.service.excluir(this.idExcluir).subscribe({
-        next: () => {
-          this.toastService.success('Cliente removido com sucesso!');
-          this.router.navigate(['../listar']);
+    if (this.codigoExcluir) {
+      this.service.listar().subscribe({
+        next: (dados) => {
+          const cliente = dados.find(c => c.codigo === this.codigoExcluir || c.id === this.codigoExcluir);
+          if (cliente) {
+            this.service.excluir(cliente.id).subscribe({
+              next: () => {
+                this.toastService.success('Cliente removido com sucesso!');
+                this.router.navigate(['../listar']);
+              },
+              error: () => this.erroMensagem = 'Erro ao excluir.'
+            });
+          } else {
+            this.erroMensagem = 'Cliente não encontrado. Verifique o código.';
+          }
         },
-        error: () => this.erroMensagem = 'Erro ao excluir. Verifique se o ID está correto.'
+        error: () => this.erroMensagem = 'Erro ao conectar com o banco.'
       });
     }
   }

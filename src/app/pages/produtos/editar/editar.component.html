@@ -6,8 +6,8 @@
   }
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-    <label>ID:</label>
-    <input formControlName="id" type="text" [disabled]="true" />
+    <label>CÓDIGO:</label>
+    <input formControlName="codigo" type="text" required />
 
     <label>Título:</label>
     <input formControlName="titulo" type="text" required />

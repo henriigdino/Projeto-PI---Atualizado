@@ -1,6 +1,7 @@
 // GRUPO 1 — ACERVO (Itens da Locadora)
 export interface ItemAcervo {
   id: string;
+  codigo: string;
   titulo: string;
   plataforma: string;
   tipoItem: string;
@@ -12,6 +13,7 @@ export interface ItemAcervo {
 // GRUPO 2 — GESTÃO DE CLIENTES
 export interface Cliente {
   id: string;
+  codigo: string;
   nomeCompleto: string;
   telefone: string;
   pontosXP: string;

@@ -28,7 +28,7 @@ export class EditarClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      id: [{ value: '', disabled: true }],
+      codigo: [''],
       nomeCompleto: [''], telefone: [''], pontosXP: [''],
       ranking: [''], itemAlugado: [''], dataDevolucao: ['']
     });
@@ -40,8 +40,22 @@ export class EditarClienteComponent implements OnInit {
     this.erroBusca = '';
     if (this.idCliente) {
       this.service.buscarPorId(this.idCliente).subscribe({
-        next: (dados) => dados ? this.form.patchValue(dados) : this.erroBusca = 'Cliente não encontrado.',
-        error: () => this.erroBusca = 'Cliente não encontrado. Verifique o ID.'
+        next: (dados) => {
+          if (dados) {
+            this.form.patchValue(dados);
+          } else {
+            this.service.listar().subscribe(lista => {
+              const porCodigo = lista.find(c => c.codigo === this.idCliente);
+              if (porCodigo) {
+                this.idCliente = porCodigo.id;
+                this.form.patchValue(porCodigo);
+              } else {
+                this.erroBusca = 'Cliente não encontrado.';
+              }
+            });
+          }
+        },
+        error: () => this.erroBusca = 'Cliente não encontrado. Verifique o código.'
       });
     }
   }

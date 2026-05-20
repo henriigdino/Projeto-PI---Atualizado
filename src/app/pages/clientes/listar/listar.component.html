@@ -7,7 +7,7 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
+        <th>CÓDIGO</th>
         <th>Nome</th>
         <th>Telefone</th>
         <th>XP</th>
@@ -20,7 +20,7 @@
     <tbody>
       @for (c of listaClientes; track c.id) {
         <tr>
-          <td class="dim-text">{{ c.id }}</td>
+          <td class="dim-text">{{ c.codigo || c.id }}</td>
           <td>{{ c.nomeCompleto }}</td>
           <td>{{ c.telefone }}</td>
           <td>

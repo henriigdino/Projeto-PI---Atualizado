@@ -17,7 +17,7 @@ export class AdicionarProdutoComponent {
   private toastService = inject(ToastService);
 
   item: ItemAcervo = {
-    id: '', titulo: '', plataforma: '', tipoItem: '',
+    id: '', codigo: '', titulo: '', plataforma: '', tipoItem: '',
     anoLancamento: '', condicao: '', status: ''
   };
 
@@ -27,13 +27,14 @@ export class AdicionarProdutoComponent {
   ) { }
 
   submeter() {
+    this.item.id = crypto.randomUUID();
     this.service.incluir(this.item).subscribe({
       next: () => {
         this.toastService.success('Produto cadastrado com sucesso!');
         this.router.navigate(['../listar']);
       },
       error: () => {
-        this.toastService.error('Erro ao cadastrar. Verifique se o ID já existe.');
+        this.toastService.error('Erro ao cadastrar. Verifique a conexão com o banco.');
       }
     });
   }

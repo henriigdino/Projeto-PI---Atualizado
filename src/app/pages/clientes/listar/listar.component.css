@@ -2,17 +2,23 @@
   overflow-x: auto;
 }
 
+.list-container th,
+.list-container td {
+  font-family: var(--font-pixel);
+}
+
 .list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
 
 .list-count {
-  font-size: 7px;
+  font-family: var(--font-mono);
+  font-size: var(--font-scale-base);
   letter-spacing: 1px;
 }
 
@@ -39,16 +45,17 @@
 }
 
 .xp-cell-value {
-  font-size: 7px;
+  font-size: var(--font-scale-sm);
   color: var(--pacman-yellow);
-  min-width: 30px;
+  min-width: 40px;
   text-align: right;
 }
 
 .ranking-badge {
+  font-family: var(--font-mono);
   display: inline-block;
-  font-size: 7px;
-  padding: 2px 8px;
+  font-size: var(--font-scale-sm);
+  padding: 6px 12px;
   border: 1px solid var(--bg-tertiary);
   color: var(--text-primary);
 }
@@ -73,11 +80,11 @@ td:last-child {
 
 .btn-editar {
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: var(--font-scale-xs);
   background: transparent;
   color: var(--pacman-yellow);
   border: 1px solid var(--pacman-yellow);
-  padding: 4px 10px;
+  padding: 8px 16px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -90,11 +97,11 @@ td:last-child {
 
 .btn-excluir {
   font-family: var(--font-pixel);
-  font-size: 7px;
+  font-size: var(--font-scale-xs);
   background: transparent;
   color: var(--neon-pink);
   border: 1px solid var(--neon-pink);
-  padding: 4px 10px;
+  padding: 8px 16px;
   cursor: pointer;
   transition: all 0.2s;
 }
