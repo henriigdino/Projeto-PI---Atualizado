@@ -221,8 +221,9 @@ tbody tr:nth-child(even) {
 
 .card {
   background: var(--bg-secondary);
-  border: 2px solid var(--bg-tertiary);
-  padding: 24px;  /* Aumentado de 16px */
+  border: 3px solid var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 24px;
   position: relative;
   transition: all 0.3s;
 }
@@ -245,8 +246,9 @@ tbody tr:nth-child(even) {
 
 .panel {
   background: var(--bg-secondary);
-  border: 2px solid var(--bg-tertiary);
-  padding: 24px;  /* Aumentado de 16px */
+  border: 3px solid var(--bg-tertiary);
+  border-radius: 8px;
+  padding: 24px;
   position: relative;
 }
 .panel-title {

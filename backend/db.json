@@ -1,31 +1,64 @@
 {
   "acervo": [
     {
-      "id": "l5BnUDfhHoY",
+      "codigo": "1",
       "titulo": "Chrono Trigger",
-      "plataforma": "PS1",
+      "plataforma": "SNES",
       "tipoItem": "Jogo",
       "anoLancamento": "1996",
       "condicao": "Usado",
-      "status": "Vendido"
+      "status": "Alugado",
+      "id": "M3sMSZm4gBk"
     },
     {
-      "id": "runxOOrmfKQ",
-      "titulo": "Super Mario World",
-      "plataforma": "Super Nintendo",
-      "tipoItem": "Jogo",
-      "anoLancamento": "1990",
-      "condicao": "Usado",
-      "status": "A venda"
-    },
-    {
+      "codigo": "2",
       "titulo": "The Legend of Zelda",
       "plataforma": "NES",
       "tipoItem": "Jogo",
       "anoLancamento": "1986",
-      "condicao": "Lacrado",
-      "status": "Vendido",
-      "id": "rCCDvoJ7IfM"
+      "condicao": "Usado",
+      "status": "Para alugar",
+      "id": "qfk0zINFCn4"
+    },
+    {
+      "codigo": "3",
+      "titulo": "Super Mario World",
+      "plataforma": "GameCube",
+      "tipoItem": "Jogo",
+      "anoLancamento": "1990",
+      "condicao": "Usado",
+      "status": "Para alugar",
+      "id": "l9uwq5ebZBM"
+    },
+    {
+      "codigo": "4",
+      "titulo": "Super Mario Bros",
+      "plataforma": "MegaDrive",
+      "tipoItem": "Jogo",
+      "anoLancamento": "1985",
+      "condicao": "Usado",
+      "status": "Alugado",
+      "id": "7WQEuf1BFwA"
+    },
+    {
+      "codigo": "5",
+      "titulo": "Final Fantasy VII",
+      "plataforma": "PS1",
+      "tipoItem": "Jogo",
+      "anoLancamento": "1997",
+      "condicao": "Usado",
+      "status": "Alugado",
+      "id": "brD91FigXro"
+    },
+    {
+      "codigo": "001",
+      "titulo": "MegaDrive",
+      "plataforma": "",
+      "tipoItem": "Console",
+      "anoLancamento": "1990",
+      "condicao": "Usado",
+      "status": "Alugado",
+      "id": "c7X85rOOlso"
     }
   ],
   "clientes": [
@@ -39,23 +72,24 @@
       "dataDevolucao": "2026-05-20"
     },
     {
-      "id": "1002",
+      "codigo": "",
       "nomeCompleto": "Maria Oliveira",
       "telefone": "(11) 98888-8888",
-      "pontosXP": "780",
+      "pontosXP": "1500",
       "ranking": "Colecionador",
       "itemAlugado": "001",
-      "dataDevolucao": "2026-05-25"
+      "dataDevolucao": "2026-05-25",
+      "id": "1002"
     },
     {
-      "codigo": "",
-      "nomeCompleto": "Henrique Rodrigues Galdino",
+      "codigo": "8",
+      "nomeCompleto": "Henrique Galdino",
       "telefone": "123456",
-      "pontosXP": "5",
-      "ranking": "Colecionador",
-      "itemAlugado": "004",
+      "pontosXP": "2800",
+      "ranking": "Iniciante",
+      "itemAlugado": "2300",
       "dataDevolucao": "2006-05-26",
-      "id": "sjxlBtuw838"
+      "id": "LLd5Vy2L1ec"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

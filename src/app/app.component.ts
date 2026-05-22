@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 import { ToastComponent } from './shared/toast/toast.component';
 import { GamificationService } from './core/services/gamification.service';
 import { ActivityService } from './core/services/activity.service';
@@ -17,17 +18,26 @@ export class AppComponent implements OnInit, OnDestroy {
   activityService = inject(ActivityService);
   sidebarAberta = true;
   relogio = '';
+  tema = 'dashboard';
   private timer: any;
 
   menuItems = [
-    { path: '/dashboard', icon: '■', label: 'DASHBOARD' },
-    { path: '/produtos', icon: '◆', label: 'PRODUTOS' },
-    { path: '/clientes', icon: '●', label: 'CLIENTES' }
+    { path: '/dashboard', icon: '📋', label: 'DASHBOARD' },
+    { path: '/produtos', icon: '🎮', label: 'PRODUTOS' },
+    { path: '/clientes', icon: '👤', label: 'CLIENTES' }
   ];
 
   ngOnInit() {
     this.atualizarRelogio();
     this.timer = setInterval(() => this.atualizarRelogio(), 1000);
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe(() => {
+      const url = this.router.url;
+      if (url.startsWith('/produtos')) this.tema = 'produtos';
+      else if (url.startsWith('/clientes')) this.tema = 'clientes';
+      else this.tema = 'dashboard';
+    });
   }
 
   ngOnDestroy() {

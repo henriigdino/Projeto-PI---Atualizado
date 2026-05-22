@@ -40,3 +40,10 @@
   color: var(--bg-primary);
   box-shadow: none;
 }
+
+.erro-validacao {
+  font-family: var(--font-mono);
+  font-size: var(--font-scale-xs);
+  color: var(--neon-pink);
+  margin-top: -12px;
+}

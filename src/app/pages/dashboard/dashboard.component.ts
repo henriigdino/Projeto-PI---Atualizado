@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AcervoService } from '../../core/services/acervo.service';
 import { ClientesService } from '../../core/services/clientes.service';
-import { ActivityService } from '../../core/services/activity.service';
 import { GamificationService, Achievement } from '../../core/services/gamification.service';
 import { ItemAcervo, Cliente } from '../../core/types/types';
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
@@ -18,7 +17,6 @@ import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 export class DashboardComponent implements OnInit, OnDestroy {
   private acervoService = inject(AcervoService);
   private clientesService = inject(ClientesService);
-  activityService = inject(ActivityService);
   gamification = inject(GamificationService);
 
   loading = true;
@@ -38,11 +36,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private timer: any;
   private uptimeTimer: any;
 
-  showTerminal = true;
-  showScanner = true;
-  scannerAngle = 0;
-  private scannerTimer: any;
-
   statusData: { label: string; count: number; color: string }[] = [];
   plataformaData: { label: string; count: number; color: string }[] = [];
 
@@ -54,17 +47,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.atualizarRelogio();
     this.timer = setInterval(() => this.atualizarRelogio(), 1000);
     this.uptimeTimer = setInterval(() => this.uptimeSeconds++, 1000);
-    this.activityService.fakeSystemBoot();
-
-    this.scannerTimer = setInterval(() => {
-      this.scannerAngle = (this.scannerAngle + 2) % 360;
-    }, 50);
   }
 
   ngOnDestroy() {
     if (this.timer) clearInterval(this.timer);
     if (this.uptimeTimer) clearInterval(this.uptimeTimer);
-    if (this.scannerTimer) clearInterval(this.scannerTimer);
   }
 
   carregarStats() {
@@ -88,19 +75,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         { label: 'MANUTENÇÃO', count: this.itensManutencao, color: 'var(--pacman-yellow)' }
       ];
 
+      const plataformaCores: Record<string, string> = {
+        SNES: '#e60012', NES: '#8b0000', MegaDrive: '#0055dd',
+        PS1: '#0288d1', PS2: '#1a237e', 'Nintendo 64': '#2e7d32',
+        GameCube: '#6a1b9a'
+      };
       const pmap = new Map<string, number>();
       dados.forEach(i => pmap.set(i.plataforma || 'OUTROS', (pmap.get(i.plataforma || 'OUTROS') || 0) + 1));
-      const cores = ['var(--neon-blue)', 'var(--neon-pink)', 'var(--neon-purple)', 'var(--pacman-yellow)', 'var(--text-dim)'];
       this.plataformaData = Array.from(pmap.entries())
-        .sort((a, b) => b[1] - a[1]).slice(0, 5)
-        .map(([label, count], i) => ({ label, count, color: cores[i % cores.length] }));
+        .sort((a, b) => b[1] - a[1]).slice(0, 7)
+        .map(([label, count]) => ({ label, count, color: plataformaCores[label] || 'var(--text-dim)' }));
 
       this.produtosRecentes = dados.slice(-4).reverse();
       this.loading = false;
-
-      if (dados.length > 0) {
-        this.activityService.success(`Acervo sincronizado: ${dados.length} itens`);
-      }
     });
 
     this.clientesService.listar().subscribe(dados => {
@@ -124,9 +111,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         setTimeout(() => this.showAchievementPopup = false, 5000);
       }
 
-      if (dados.length > 0) {
-        this.activityService.success(`Clientes carregados: ${dados.length} registros`);
-      }
     });
   }
 
@@ -136,6 +120,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dataAtual = agora.toLocaleDateString('pt-BR', {
       weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
     });
+  }
+
+  platColor(plataforma: string | undefined): string {
+    const cores: Record<string, string> = {
+      SNES: '#e60012', NES: '#8b0000', MegaDrive: '#0055dd',
+      PS1: '#0288d1', PS2: '#1a237e', 'Nintendo 64': '#2e7d32',
+      GameCube: '#6a1b9a'
+    };
+    return cores[plataforma || ''] || 'var(--text-dim)';
   }
 
   barWidth(count: number, total: number): string {
@@ -152,9 +145,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const s = this.uptimeSeconds % 60;
     return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
-
-  toggleTerminal() { this.showTerminal = !this.showTerminal; }
-  toggleScanner() { this.showScanner = !this.showScanner; }
 
   dismissAchievement() { this.showAchievementPopup = false; }
 }

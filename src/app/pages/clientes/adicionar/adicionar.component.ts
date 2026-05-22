@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Cliente } from '../../../core/types/types';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { Cliente, ItemAcervo } from '../../../core/types/types';
 import { ClientesService } from '../../../core/services/clientes.service';
+import { AcervoService } from '../../../core/services/acervo.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
 
@@ -12,9 +13,10 @@ import { ToastService } from '../../../core/services/toast.service';
   templateUrl: './adicionar.component.html',
   styleUrl: './adicionar.component.css'
 })
-export class AdicionarClienteComponent {
+export class AdicionarClienteComponent implements OnInit {
   titulo = 'Cadastrar Cliente';
   private toastService = inject(ToastService);
+  produtos: ItemAcervo[] = [];
 
   cliente: Cliente = {
     id: '', codigo: '', nomeCompleto: '', telefone: '',
@@ -23,15 +25,26 @@ export class AdicionarClienteComponent {
 
   constructor(
     private service: ClientesService,
+    private acervoService: AcervoService,
     public router: Router
   ) { }
 
-  submeter() {
+  ngOnInit() {
+    this.acervoService.listar().subscribe(itens => {
+      this.produtos = itens.filter(i => i.codigo);
+    });
+  }
+
+  submeter(form: NgForm) {
+    if (form.invalid) {
+      this.toastService.error('Preencha todos os campos obrigatórios.');
+      return;
+    }
     this.cliente.id = crypto.randomUUID();
     this.service.incluir(this.cliente).subscribe({
       next: () => {
         this.toastService.success('Cliente cadastrado com sucesso!');
-        this.router.navigate(['../listar']);
+        this.router.navigate(['/clientes/listar']);
       },
       error: () => {
         this.toastService.error('Erro ao cadastrar. Verifique a conexão com o banco.');

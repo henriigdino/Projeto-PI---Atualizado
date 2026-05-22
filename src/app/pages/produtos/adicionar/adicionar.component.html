@@ -1,27 +1,63 @@
 <div class="form-page animate-in">
   <h2>■ {{ titulo }}</h2>
 
-  <form (ngSubmit)="submeter()" class="form-container">
+  <form #produtoForm="ngForm" (ngSubmit)="submeter(produtoForm)" class="form-container">
     <label>CÓDIGO:</label>
-    <input type="text" name="codigo" [(ngModel)]="item.codigo" required />
+    <input type="text" name="codigo" #codigo="ngModel" [(ngModel)]="item.codigo" required pattern="[0-9]*" />
+    @if (codigo.invalid && codigo.touched) {
+      <span class="erro-validacao">Apenas números</span>
+    }
 
-    <label>Título:</label>
-    <input type="text" name="titulo" [(ngModel)]="item.titulo" required />
+    <label>TIPO DE ITEM:</label>
+    <select name="tipoItem" [(ngModel)]="item.tipoItem" (ngModelChange)="onTipoChange()" required>
+      <option value="">Selecione...</option>
+      <option value="Console">Console</option>
+      <option value="Jogo">Jogo</option>
+    </select>
 
-    <label>Plataforma:</label>
-    <input type="text" name="plataforma" [(ngModel)]="item.plataforma" required />
+    @if (item.tipoItem === 'Console') {
+      <label>NOME:</label>
+      <select name="titulo" [(ngModel)]="item.titulo" (ngModelChange)="onNomeConsoleChange()" required>
+        <option value="">Selecione o console...</option>
+        <option value="SNES">SNES</option>
+        <option value="NES">NES</option>
+        <option value="MegaDrive">MegaDrive</option>
+        <option value="PS1">PS1</option>
+        <option value="PS2">PS2</option>
+        <option value="Nintendo 64">Nintendo 64</option>
+        <option value="GameCube">GameCube</option>
+      </select>
+    } @else {
+      <label>TÍTULO:</label>
+      <input type="text" name="titulo" [(ngModel)]="item.titulo" required />
+    }
 
-    <label>Tipo de Item:</label>
-    <input type="text" name="tipoItem" [(ngModel)]="item.tipoItem" required />
+    @if (item.tipoItem !== 'Console') {
+      <label>PLATAFORMA:</label>
+      <select name="plataforma" [(ngModel)]="item.plataforma" required>
+        <option value="">Selecione...</option>
+        <option value="SNES">SNES</option>
+        <option value="NES">NES</option>
+        <option value="MegaDrive">MegaDrive</option>
+        <option value="PS1">PS1</option>
+        <option value="PS2">PS2</option>
+        <option value="Nintendo 64">Nintendo 64</option>
+        <option value="GameCube">GameCube</option>
+      </select>
+    }
 
-    <label>Ano de Lançamento:</label>
-    <input type="text" name="anoLancamento" [(ngModel)]="item.anoLancamento" required />
+    <label>{{ item.tipoItem === 'Console' ? 'ANO:' : 'ANO DE LANÇAMENTO:' }}</label>
+    <input type="text" name="anoLancamento" #ano="ngModel" [(ngModel)]="item.anoLancamento" required pattern="[0-9]*" />
+    @if (ano.invalid && ano.touched) {
+      <span class="erro-validacao">Apenas números</span>
+    }
 
-    <label>Condição:</label>
-    <input type="text" name="condicao" [(ngModel)]="item.condicao" required />
-
-    <label>Status:</label>
-    <input type="text" name="status" [(ngModel)]="item.status" required />
+    <label>STATUS:</label>
+    <select name="status" [(ngModel)]="item.status" (change)="onStatusChange()" required>
+      <option value="">Selecione...</option>
+      <option value="Alugado">Alugado</option>
+      <option value="Para alugar">Para alugar</option>
+    </select>
 
     <div class="form-actions">
       <button type="submit" class="btn-salvar">ADICIONAR</button>

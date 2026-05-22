@@ -1,58 +1,51 @@
 <div class="list-container animate-in">
   <div class="list-header">
     <span class="list-count neon-text">TOTAL: {{ listaClientes.length }} CLIENTES</span>
-    <a routerLink="../adicionar" class="btn">+ NOVO CLIENTE</a>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>CÓDIGO</th>
-        <th>Nome</th>
-        <th>Telefone</th>
-        <th>XP</th>
-        <th>Ranking</th>
-        <th>Item Alugado</th>
-        <th>Devolução</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (c of listaClientes; track c.id) {
-        <tr>
-          <td class="dim-text">{{ c.codigo || c.id }}</td>
-          <td>{{ c.nomeCompleto }}</td>
-          <td>{{ c.telefone }}</td>
-          <td>
-            <div class="xp-cell">
-              <div class="xp-bar-mini">
-                <div class="xp-bar-mini-fill" [style.width.%]="xpPercent(c.pontosXP)"></div>
-              </div>
-              <span class="xp-cell-value">{{ c.pontosXP }}</span>
-            </div>
-          </td>
-          <td>
-            <span class="ranking-badge"
-                  [class.ranking-vip]="c.ranking && (c.ranking.toLowerCase().includes('vip') || c.ranking.toLowerCase().includes('colecionador'))"
-                  [class.ranking-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')">
-              {{ c.ranking }}
-            </span>
-          </td>
-          <td>{{ c.itemAlugado }}</td>
-          <td>{{ c.dataDevolucao }}</td>
-          <td>
-            <button class="btn-editar" [routerLink]="['../editar', c.id]">EDITAR</button>
-            <button class="btn-excluir" (click)="excluir(c.id!)">REMOVER</button>
-          </td>
-        </tr>
-      }
-      @if (listaClientes.length === 0) {
-        <tr>
-          <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-dim);">
-            NENHUM CLIENTE CADASTRADO
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  <div class="clientes-grid">
+    @for (c of listaClientes; track c.id) {
+      <div class="cliente-card">
+        <div class="cliente-card-top">
+          <span class="cliente-codigo">{{ c.codigo || c.id }}</span>
+          <span class="cliente-ranking"
+                [class.ranking-vip]="c.ranking && (c.ranking.toLowerCase().includes('vip') || c.ranking.toLowerCase().includes('colecionador'))"
+                [class.ranking-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')">
+            {{ c.ranking }}
+          </span>
+        </div>
+
+        <span class="cliente-nome">{{ c.nomeCompleto }}</span>
+        <span class="cliente-telefone">● Telefone: {{ c.telefone }}</span>
+
+        <div class="cliente-xp">
+          <div class="xp-bar-mini">
+            <div class="xp-bar-mini-fill" [style.width.%]="xpPercent(c.pontosXP)" [style.background]="'linear-gradient(90deg, ' + xpColor(c.pontosXP) + ', rgba(255,255,255,0.5))'" [style.boxShadow]="'0 0 4px ' + xpColor(c.pontosXP)"></div>
+          </div>
+          <span class="cliente-xp-text">{{ c.pontosXP }} XP</span>
+        </div>
+
+        <div class="cliente-details">
+          <div class="cliente-detail">
+            <span>ALUGADO</span>
+            <span class="cliente-detail-value">{{ c.itemAlugado || '---' }}</span>
+          </div>
+          <div class="cliente-detail">
+            <span>DEVOLUÇÃO</span>
+            <span class="cliente-detail-value">{{ c.dataDevolucao || '---' }}</span>
+          </div>
+        </div>
+
+        <div class="cliente-actions">
+          <button class="btn-editar" [routerLink]="['../editar', c.id]">EDITAR</button>
+          <button class="btn-excluir" (click)="excluir(c.id!)">REMOVER</button>
+        </div>
+      </div>
+    }
+    @if (listaClientes.length === 0) {
+      <div class="empty-msg" style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-dim);">
+        NENHUM CLIENTE CADASTRADO
+      </div>
+    }
+  </div>
 </div>

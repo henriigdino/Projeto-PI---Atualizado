@@ -60,7 +60,7 @@
           <div class="panel-title">PERFIL DO OPERADOR</div>
           <div class="profile-content">
             <div class="profile-avatar">
-              <span>🕹️</span>
+              <span>🙂</span>
             </div>
             <div class="profile-info">
               <span class="profile-name">ADMIN</span>
@@ -83,27 +83,6 @@
               </span>
             }
           </div>
-        </div>
-
-        <div class="panel scanner-panel" [class.panel-collapsed]="!showScanner">
-          <div class="panel-title" (click)="toggleScanner()" style="cursor:pointer;">
-            RADAR DE ATIVIDADE <span class="collapse-arrow">{{ showScanner ? '▼' : '▲' }}</span>
-          </div>
-          @if (showScanner) {
-            <div class="scanner-container">
-              <div class="scanner-circle">
-                <div class="scanner-sweep" [style.transform]="'rotate(' + scannerAngle + 'deg)'"></div>
-                <div class="scanner-center"></div>
-                @for (p of [1,2,3,4,5,6,7,8]; track p) {
-                  <div class="scanner-dot" [style.transform]="'rotate(' + (p * 45) + 'deg) translateY(-22px)'"></div>
-                }
-              </div>
-              <div class="scanner-stats">
-                <span>{{ totalProdutos }} ITENS</span>
-                <span>{{ itensAlugados }} ATIVOS</span>
-              </div>
-            </div>
-          }
         </div>
 
         <div class="panel alert-panel">
@@ -150,10 +129,8 @@
           <div class="chart-container">
             @for (item of statusData; track item.label) {
               <div class="chart-row">
+                <span class="chart-indicator" [style.background]="item.color" [style.boxShadow]="'0 0 8px ' + item.color"></span>
                 <span class="chart-label">{{ item.label }}</span>
-                <div class="chart-bar-bg">
-                  <div class="chart-bar-fill" [style.width]="barWidth(item.count, totalProdutos)" [style.background]="item.color" [style.boxShadow]="'0 0 8px ' + item.color"></div>
-                </div>
                 <span class="chart-value">{{ item.count }}</span>
               </div>
             }
@@ -165,10 +142,8 @@
           <div class="chart-container">
             @for (item of plataformaData; track item.label) {
               <div class="chart-row">
+                <span class="chart-indicator" [style.background]="item.color" [style.boxShadow]="'0 0 8px ' + item.color"></span>
                 <span class="chart-label">{{ item.label }}</span>
-                <div class="chart-bar-bg">
-                  <div class="chart-bar-fill" [style.width]="barWidth(item.count, totalProdutos)" [style.background]="item.color" [style.boxShadow]="'0 0 8px ' + item.color"></div>
-                </div>
                 <span class="chart-value">{{ item.count }}</span>
               </div>
             }
@@ -183,15 +158,17 @@
           <div class="recent-list-horizontal">
             @for (item of produtosRecentes; track item.id) {
               <div class="recent-card">
-                <div class="recent-card-icon">{{ item.plataforma && item.plataforma.includes('Nintendo') ? '🟥' : item.plataforma && item.plataforma.includes('Mega') ? '🟦' : '🟩' }}</div>
+                <div class="recent-card-icon" [style.background]="platColor(item.plataforma)" [style.borderColor]="platColor(item.plataforma)"></div>
                 <div class="recent-card-body">
                   <span class="recent-card-title">{{ item.titulo }}</span>
                   <span class="recent-card-meta dim-text">{{ item.plataforma }}</span>
                 </div>
                 <span class="recent-card-status"
-                      [style.color]="item.status && item.status.toLowerCase().includes('alugado') ? 'var(--neon-pink)' :
+                      [style.color]="item.status && item.status.toLowerCase().includes('alugar') ? '#00ff88' :
+                                    item.status && item.status.toLowerCase().includes('alugado') ? '#ff8800' :
                                     item.status && item.status.toLowerCase().includes('dispon') ? 'var(--neon-blue)' :
-                                    'var(--pacman-yellow)'">
+                                    'var(--pacman-yellow)'"
+                      [style.boxShadow]="item.status && (item.status.toLowerCase().includes('alugar') || item.status.toLowerCase().includes('alugado')) ? '0 0 8px ' + (item.status.toLowerCase().includes('alugar') ? '#00ff88' : '#ff8800') : 'none'">
                   {{ item.status }}
                 </span>
               </div>
@@ -209,7 +186,7 @@
       <div class="os-column os-right">
 
         <div class="panel">
-          <div class="panel-title">LEADERBOARD — MAIOR XP</div>
+          <div class="panel-title">LEADERBOARD</div>
           <div class="leaderboard">
             @for (cliente of topClientes; track cliente.id; let i = $index) {
               <div class="lb-item">
@@ -228,27 +205,15 @@
                     <span class="xp-value">{{ cliente.pontosXP }} XP</span>
                   </div>
                 </div>
-                <span class="lb-ranking">{{ cliente.ranking }}</span>
+                <span class="lb-ranking"
+                      [class.rank-iniciante]="cliente.ranking === 'Iniciante'"
+                      [class.rank-gamer]="cliente.ranking === 'Gamer'"
+                      [class.rank-veterano]="cliente.ranking === 'Veterano'"
+                      [class.rank-colecionador]="cliente.ranking === 'Colecionador'">{{ cliente.ranking }}</span>
               </div>
             }
             @if (topClientes.length === 0) {
               <div class="empty-msg dim-text">Nenhum cliente cadastrado</div>
-            }
-          </div>
-        </div>
-
-        <div class="panel activity-panel">
-          <div class="panel-title">FEED DE ATIVIDADE</div>
-          <div class="activity-feed">
-            @for (log of activityService.getRecentLogs(10); track log) {
-              <div class="activity-item" [class.act-system]="log.type === 'system'"
-                                          [class.act-success]="log.type === 'success'"
-                                          [class.act-error]="log.type === 'error'"
-                                          [class.act-warning]="log.type === 'warning'">
-                <span class="act-icon">{{ log.icon }}</span>
-                <span class="act-msg">{{ log.message }}</span>
-                <span class="act-time dim-text">{{ log.timestamp | date:'HH:mm:ss' }}</span>
-              </div>
             }
           </div>
         </div>

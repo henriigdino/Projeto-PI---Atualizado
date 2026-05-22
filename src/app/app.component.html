@@ -1,4 +1,7 @@
-<div class="app-shell">
+<div class="app-shell"
+     [class.tema-dashboard]="tema === 'dashboard'"
+     [class.tema-produtos]="tema === 'produtos'"
+     [class.tema-clientes]="tema === 'clientes'">
   <div class="bg-grid"></div>
   <div class="crt-scanlines"></div>
   <app-toast />
@@ -15,10 +18,6 @@
       </div>
     </div>
     <div class="top-bar-center">
-      <span class="top-indicator">
-        <span class="status-dot online"></span> SISTEMA
-      </span>
-      <span class="top-indicator dim-text">|</span>
       <span class="top-indicator">
         NÍVEL {{ gamification.getLevel().level }} {{ gamification.getLevel().title }}
       </span>
@@ -40,7 +39,7 @@
     <aside class="sidebar" [class.sidebar-fechada]="!sidebarAberta">
       <div class="sidebar-profile">
         <div class="sidebar-avatar">
-          <span>🕹️</span>
+          <span>🙂</span>
         </div>
         <div class="sidebar-user-info">
           <span class="sidebar-user-name">ADMIN</span>
@@ -66,28 +65,27 @@
             <span class="sidebar-label">{{ item.label }}</span>
           </a>
         }
+        <div class="sidebar-nav-divider"></div>
+        <div class="sidebar-achievements">
+          <span class="sidebar-section-title">CONQUISTAS</span>
+          <div class="sidebar-badges">
+            @for (a of gamification.achievements; track a.id) {
+              <span class="side-badge" [class.side-badge-locked]="!a.unlocked" [title]="a.desc">
+                {{ a.unlocked ? a.icon : '🔒' }}
+              </span>
+            }
+          </div>
+        </div>
+        <div class="sidebar-nav-divider"></div>
+        <div class="sidebar-achievements">
+          <span class="sidebar-section-title">SISTEMA</span>
+          <div class="sidebar-status">
+            <span class="status-dot online"></span>
+            <span class="sidebar-status-text">SISTEMA ATIVO</span>
+          </div>
+          <div class="sidebar-uptime dim-text" id="sidebarUptime"></div>
+        </div>
       </nav>
-
-      <div class="sidebar-divider"></div>
-
-      <div class="sidebar-achievements">
-        <span class="sidebar-section-title">CONQUISTAS</span>
-        <div class="sidebar-badges">
-          @for (a of gamification.achievements; track a.id) {
-            <span class="side-badge" [class.side-badge-locked]="!a.unlocked" [title]="a.desc">
-              {{ a.unlocked ? a.icon : '🔒' }}
-            </span>
-          }
-        </div>
-      </div>
-
-      <div class="sidebar-footer">
-        <div class="sidebar-status">
-          <span class="status-dot online"></span>
-          SISTEMA ATIVO
-        </div>
-        <div class="sidebar-uptime dim-text" id="sidebarUptime"></div>
-      </div>
     </aside>
 
     <main class="main-content">

@@ -8,24 +8,60 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
     <label>CÓDIGO:</label>
     <input formControlName="codigo" type="text" required />
+    @if (form.get('codigo')?.invalid && form.get('codigo')?.touched) {
+      <span class="erro-validacao">Apenas números</span>
+    }
 
-    <label>Título:</label>
-    <input formControlName="titulo" type="text" required />
+    <label>TIPO DE ITEM:</label>
+    <select formControlName="tipoItem" (change)="onTipoChange()" required>
+      <option value="">Selecione...</option>
+      <option value="Console">Console</option>
+      <option value="Jogo">Jogo</option>
+    </select>
 
-    <label>Plataforma:</label>
-    <input formControlName="plataforma" type="text" required />
+    @if (form.get('tipoItem')?.value === 'Console') {
+      <label>NOME:</label>
+      <select formControlName="titulo" (change)="onNomeConsoleChange()" required>
+        <option value="">Selecione o console...</option>
+        <option value="SNES">SNES</option>
+        <option value="NES">NES</option>
+        <option value="MegaDrive">MegaDrive</option>
+        <option value="PS1">PS1</option>
+        <option value="PS2">PS2</option>
+        <option value="Nintendo 64">Nintendo 64</option>
+        <option value="GameCube">GameCube</option>
+      </select>
+    } @else {
+      <label>TÍTULO:</label>
+      <input formControlName="titulo" type="text" required />
+    }
 
-    <label>Tipo de Item:</label>
-    <input formControlName="tipoItem" type="text" required />
+    @if (form.get('tipoItem')?.value !== 'Console') {
+      <label>PLATAFORMA:</label>
+      <select formControlName="plataforma" required>
+        <option value="">Selecione...</option>
+        <option value="SNES">SNES</option>
+        <option value="NES">NES</option>
+        <option value="MegaDrive">MegaDrive</option>
+        <option value="PS1">PS1</option>
+        <option value="PS2">PS2</option>
+        <option value="Nintendo 64">Nintendo 64</option>
+        <option value="GameCube">GameCube</option>
+      </select>
+    }
 
-    <label>Ano de Lançamento:</label>
+    <label>{{ form.get('tipoItem')?.value === 'Console' ? 'ANO:' : 'ANO DE LANÇAMENTO:' }}</label>
     <input formControlName="anoLancamento" type="text" required />
+    @if (form.get('anoLancamento')?.invalid && form.get('anoLancamento')?.touched) {
+      <span class="erro-validacao">Apenas números</span>
+    }
 
-    <label>Condição:</label>
-    <input formControlName="condicao" type="text" required />
-
-    <label>Status:</label>
-    <input formControlName="status" type="text" required />
+    <label>STATUS:</label>
+    <select formControlName="status" (change)="onStatusChange()" required>
+      <option value="">Selecione...</option>
+      <option value="Alugado">Alugado</option>
+      <option value="Para alugar">Para alugar</option>
+    </select>
 
     <div class="form-actions">
       <button type="submit" class="btn-salvar">ATUALIZAR</button>

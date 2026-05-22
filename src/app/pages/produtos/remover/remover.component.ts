@@ -32,7 +32,7 @@ export class RemoverProdutoComponent {
             this.service.excluir(item.id).subscribe({
               next: () => {
                 this.toastService.success('Produto removido com sucesso!');
-                this.router.navigate(['../listar']);
+                this.router.navigate(['/produtos/listar']);
               },
               error: () => this.erroMensagem = 'Erro ao excluir.'
             });

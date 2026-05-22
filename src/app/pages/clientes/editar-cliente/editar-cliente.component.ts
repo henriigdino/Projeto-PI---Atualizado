@@ -60,13 +60,13 @@ export class EditarClienteComponent implements OnInit {
     }
   }
 
-  cancelar() { this.router.navigate(['/clientes']); }
+  cancelar() { this.router.navigate(['/clientes/listar']); }
 
   onSubmit() {
     const clienteAtualizado: Cliente = { ...this.form.getRawValue(), id: this.idCliente };
     this.service.editar(clienteAtualizado).subscribe(() => {
       this.toastService.success('Cliente atualizado com sucesso!');
-      this.router.navigate(['/clientes']);
+      this.router.navigate(['/clientes/listar']);
     });
   }
 }

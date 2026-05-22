@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { CommonModule } from '@angular/common';
 import { ItemAcervo } from '../../../core/types/types';
@@ -28,9 +28,22 @@ export class EditarProdutoComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      codigo: [''],
-      titulo: [''], plataforma: [''], tipoItem: [''],
-      anoLancamento: [''], condicao: [''], status: ['']
+      codigo: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+      titulo: ['', Validators.required], plataforma: ['', Validators.required],
+      tipoItem: ['', Validators.required],
+      anoLancamento: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+      condicao: [''], status: ['', Validators.required]
+    });
+    this.form.get('tipoItem')?.valueChanges.subscribe(val => {
+      const platCtrl = this.form.get('plataforma');
+      if (val === 'Console') {
+        platCtrl?.clearValidators();
+        platCtrl?.patchValue('');
+      } else {
+        platCtrl?.setValidators(Validators.required);
+      }
+      platCtrl?.updateValueAndValidity();
+      this.form.get('titulo')?.updateValueAndValidity();
     });
     const idDaUrl = this.route.snapshot.paramMap.get('id');
     if (idDaUrl) { this.idItem = idDaUrl; this.carregarItem(); }
@@ -61,12 +74,39 @@ export class EditarProdutoComponent implements OnInit {
   }
 
   onSubmit() {
-    const ItemAtualizado: ItemAcervo = { ...this.form.getRawValue(), id: this.idItem };
+    if (this.form.invalid) {
+      this.toastService.error('Preencha todos os campos corretamente.');
+      return;
+    }
+    const raw = this.form.getRawValue();
+    if (raw.tipoItem === 'Console' && raw.codigo !== undefined) {
+      raw.codigo = raw.codigo.replace(/^00/, '');
+      raw.codigo = '00' + raw.codigo;
+    }
+    if (!raw.condicao) { raw.condicao = 'Usado'; }
+    const ItemAtualizado: ItemAcervo = { ...raw, id: this.idItem };
     this.service.editar(ItemAtualizado).subscribe(() => {
       this.toastService.success('Produto atualizado com sucesso!');
-      this.router.navigate(['../listar']);
+      this.router.navigate(['/produtos/listar']);
     });
   }
 
-  cancelar() { this.router.navigate(['../listar']); }
+  onTipoChange() {
+    if (this.form.get('tipoItem')?.value === 'Console') {
+      this.form.patchValue({ plataforma: '', titulo: '' });
+    }
+  }
+
+  onNomeConsoleChange() {
+    this.form.patchValue({ plataforma: this.form.get('titulo')?.value });
+  }
+
+  onStatusChange() {
+    const s = this.form.get('status')?.value?.toLowerCase();
+    if (s === 'alugado' || s === 'para alugar') {
+      this.form.patchValue({ condicao: 'Usado' });
+    }
+  }
+
+  cancelar() { this.router.navigate(['/produtos/listar']); }
 }

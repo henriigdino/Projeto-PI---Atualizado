@@ -1,31 +1,60 @@
 <div class="form-page animate-in">
   <h2>■ {{ titulo }}</h2>
 
-  <form (ngSubmit)="submeter()" class="form-container">
+  <form #clienteForm="ngForm" (ngSubmit)="submeter(clienteForm)" class="form-container">
     <label>CÓDIGO:</label>
-    <input type="text" name="codigo" [(ngModel)]="cliente.codigo" required />
+    <input type="text" name="codigo" #codigo="ngModel" [(ngModel)]="cliente.codigo" required pattern="[0-9]*" />
+    @if (codigo.invalid && codigo.touched) {
+      <span class="erro-validacao">Campo obrigatório (apenas números)</span>
+    }
 
     <label>Nome Completo:</label>
-    <input type="text" name="nomeCompleto" [(ngModel)]="cliente.nomeCompleto" required />
+    <input type="text" name="nomeCompleto" #nome="ngModel" [(ngModel)]="cliente.nomeCompleto" required />
+    @if (nome.invalid && nome.touched) {
+      <span class="erro-validacao">Campo obrigatório</span>
+    }
 
     <label>Telefone:</label>
-    <input type="text" name="telefone" [(ngModel)]="cliente.telefone" required />
+    <input type="text" name="telefone" #tel="ngModel" [(ngModel)]="cliente.telefone" required />
+    @if (tel.invalid && tel.touched) {
+      <span class="erro-validacao">Campo obrigatório</span>
+    }
 
     <label>Pontos XP:</label>
     <input type="text" name="pontosXP" [(ngModel)]="cliente.pontosXP" />
 
     <label>Ranking:</label>
-    <input type="text" name="ranking" [(ngModel)]="cliente.ranking" />
+    <select name="ranking" #ranking="ngModel" [(ngModel)]="cliente.ranking" required>
+      <option value="">Selecione...</option>
+      <option value="Iniciante">Iniciante</option>
+      <option value="Gamer">Gamer</option>
+      <option value="Veterano">Veterano</option>
+      <option value="Colecionador">Colecionador</option>
+    </select>
+    @if (ranking.invalid && ranking.touched) {
+      <span class="erro-validacao">Campo obrigatório</span>
+    }
 
     <label>Item Alugado:</label>
-    <input type="text" name="itemAlugado" [(ngModel)]="cliente.itemAlugado" />
+    <select name="itemAlugado" #item="ngModel" [(ngModel)]="cliente.itemAlugado" required>
+      <option value="">Selecione...</option>
+      @for (p of produtos; track p.id) {
+        <option [value]="p.codigo">{{ p.codigo }} — {{ p.titulo }} ({{ p.plataforma }})</option>
+      }
+    </select>
+    @if (item.invalid && item.touched) {
+      <span class="erro-validacao">Campo obrigatório</span>
+    }
 
     <label>Data Devolução:</label>
-    <input type="date" name="dataDevolucao" [(ngModel)]="cliente.dataDevolucao" />
+    <input type="date" name="dataDevolucao" #data="ngModel" [(ngModel)]="cliente.dataDevolucao" required />
+    @if (data.invalid && data.touched) {
+      <span class="erro-validacao">Campo obrigatório</span>
+    }
 
     <div class="form-actions">
       <button type="submit" class="btn-salvar">CADASTRAR</button>
-      <button type="button" class="btn-cancelar" (click)="router.navigate(['../listar'])">CANCELAR</button>
+      <button type="button" class="btn-cancelar" routerLink="/clientes/listar">CANCELAR</button>
     </div>
   </form>
 </div>

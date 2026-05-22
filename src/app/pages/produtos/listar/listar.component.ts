@@ -13,11 +13,26 @@ import { RouterModule } from '@angular/router';
 })
 export class ListarProdutosComponent implements OnInit {
   listaItens: ItemAcervo[] = [];
+  abaAtiva: 'todos' | 'jogos' | 'consoles' = 'todos';
 
   constructor(private service: AcervoService) {}
 
   ngOnInit(): void {
     this.carregarDados();
+  }
+
+  platIcon(item: ItemAcervo): string {
+    return item.plataforma || (item.tipoItem === 'Console' ? item.titulo : '');
+  }
+
+  get itensFiltrados(): ItemAcervo[] {
+    if (this.abaAtiva === 'consoles') {
+      return this.listaItens.filter(f => f.tipoItem === 'Console');
+    }
+    if (this.abaAtiva === 'jogos') {
+      return this.listaItens.filter(f => f.tipoItem === 'Jogo');
+    }
+    return this.listaItens;
   }
 
   carregarDados() {

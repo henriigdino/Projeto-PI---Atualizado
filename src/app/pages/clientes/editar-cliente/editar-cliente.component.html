@@ -19,7 +19,13 @@
     <input formControlName="pontosXP" type="text" />
 
     <label>Ranking:</label>
-    <input formControlName="ranking" type="text" />
+    <select formControlName="ranking">
+      <option value="">Selecione...</option>
+      <option value="Iniciante">Iniciante</option>
+      <option value="Gamer">Gamer</option>
+      <option value="Veterano">Veterano</option>
+      <option value="Colecionador">Colecionador</option>
+    </select>
 
     <label>Item Alugado:</label>
     <input formControlName="itemAlugado" type="text" />

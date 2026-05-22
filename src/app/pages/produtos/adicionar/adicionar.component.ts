@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { ItemAcervo } from '../../../core/types/types';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { Router, RouterModule } from '@angular/router';
@@ -26,12 +26,39 @@ export class AdicionarProdutoComponent {
     private router: Router
   ) { }
 
-  submeter() {
+  onTipoChange() {
+    if (this.item.tipoItem === 'Console') {
+      this.item.plataforma = '';
+      this.item.titulo = '';
+    }
+  }
+
+  onNomeConsoleChange() {
+    this.item.plataforma = this.item.titulo;
+  }
+
+  onStatusChange() {
+    const s = this.item.status?.toLowerCase();
+    if (s === 'alugado' || s === 'para alugar') {
+      this.item.condicao = 'Usado';
+    }
+  }
+
+  submeter(form: NgForm) {
+    if (form.invalid) {
+      this.toastService.error('Preencha todos os campos corretamente.');
+      return;
+    }
+    if (this.item.tipoItem === 'Console' && this.item.codigo !== undefined) {
+      this.item.codigo = this.item.codigo.replace(/^00/, '');
+      this.item.codigo = '00' + this.item.codigo;
+    }
+    if (!this.item.condicao) { this.item.condicao = 'Usado'; }
     this.item.id = crypto.randomUUID();
     this.service.incluir(this.item).subscribe({
       next: () => {
         this.toastService.success('Produto cadastrado com sucesso!');
-        this.router.navigate(['../listar']);
+        this.router.navigate(['/produtos/listar']);
       },
       error: () => {
         this.toastService.error('Erro ao cadastrar. Verifique a conexão com o banco.');

@@ -32,7 +32,7 @@ export class RemoverClienteComponent {
             this.service.excluir(cliente.id).subscribe({
               next: () => {
                 this.toastService.success('Cliente removido com sucesso!');
-                this.router.navigate(['../listar']);
+                this.router.navigate(['/clientes/listar']);
               },
               error: () => this.erroMensagem = 'Erro ao excluir.'
             });

@@ -1,38 +1,41 @@
 <div class="list-container animate-in">
   <div class="list-header">
     <span class="list-count neon-text">TOTAL: {{ listaItens.length }} ITENS</span>
-    <a routerLink="../adicionar" class="btn">+ NOVO PRODUTO</a>
+  </div>
+
+  <div class="abas">
+    <button class="aba" [class.aba-ativa]="abaAtiva === 'todos'" (click)="abaAtiva = 'todos'">TODOS</button>
+    <button class="aba" [class.aba-ativa]="abaAtiva === 'jogos'" (click)="abaAtiva = 'jogos'">JOGOS</button>
+    <button class="aba" [class.aba-ativa]="abaAtiva === 'consoles'" (click)="abaAtiva = 'consoles'">CONSOLES</button>
   </div>
 
   <div class="produtos-grid">
-    @for (f of listaItens; track f.id) {
+    @for (f of itensFiltrados; track f.id) {
       <div class="produto-card"
            [class.status-alugado]="f.status && f.status.toLowerCase().includes('alugado')"
            [class.status-disponivel]="f.status && f.status.toLowerCase().includes('dispon')"
            [class.status-manutencao]="f.status && f.status.toLowerCase().includes('manuten')"
-           [class.status-vendido]="f.status && f.status.toLowerCase().includes('vendido')"
+           [class.status-para-alugar]="f.status && f.status.toLowerCase().includes('alugar')"
            [class.status-raro]="f.condicao && f.condicao.toLowerCase().includes('raro')">
         <div class="produto-card-top">
-          <div class="produto-thumb" [attr.data-plataforma]="f.plataforma">
-            {{ f.plataforma && f.plataforma.includes('Nintendo') ? '🟥' : f.plataforma && f.plataforma.includes('Mega') ? '🟦' : f.plataforma && f.plataforma.includes('Play') ? '🟧' : '🟩' }}
+          <div class="produto-thumb" [attr.data-plataforma]="platIcon(f)">
+            <span class="platform-icon" [attr.data-plataforma]="platIcon(f)"></span>
           </div>
           <span class="produto-status-badge">{{ f.status }}</span>
         </div>
 
         <div class="produto-info">
           <span class="produto-titulo">{{ f.titulo }}</span>
-          <span class="produto-plataforma">{{ f.plataforma }}</span>
-          <span class="produto-ano">Lançamento: {{ f.anoLancamento }}</span>
+          @if (f.tipoItem !== 'Console') {
+            <span class="produto-plataforma">● {{ f.plataforma }}</span>
+          }
+          <span class="produto-ano">● {{ f.tipoItem === 'Console' ? 'Ano' : 'Lançamento' }}: {{ f.anoLancamento }}</span>
         </div>
 
         <div class="produto-details">
           <div class="produto-detail">
             <span>TIPO</span>
             <span class="produto-detail-value">{{ f.tipoItem }}</span>
-          </div>
-          <div class="produto-detail">
-            <span>CONDIÇÃO</span>
-            <span class="produto-detail-value">{{ f.condicao }}</span>
           </div>
           <div class="produto-detail">
             <span>CÓDIGO</span>
@@ -46,9 +49,9 @@
         </div>
       </div>
     }
-    @if (listaItens.length === 0) {
+    @if (itensFiltrados.length === 0) {
       <div class="empty-msg" style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-dim);">
-        NENHUM PRODUTO CADASTRADO
+        NENHUM PRODUTO {{ abaAtiva === 'consoles' ? '(CONSOLE)' : abaAtiva === 'jogos' ? '(JOGO)' : '' }} ENCONTRADO
       </div>
     }
   </div>
