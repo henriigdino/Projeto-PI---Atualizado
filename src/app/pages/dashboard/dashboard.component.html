@@ -42,11 +42,6 @@
         <div class="stat-footer">Cadastrados</div>
       </div>
       <div class="stat-card card">
-        <div class="stat-card-header"><span class="stat-icon-large">📦</span><span class="stat-label">ALUGADOS</span></div>
-        <div class="stat-value pink-text">{{ itensAlugados }}</div>
-        <div class="stat-footer">Atualmente locados</div>
-      </div>
-      <div class="stat-card card">
         <div class="stat-card-header"><span class="stat-icon-large">⭐</span><span class="stat-label">NÍVEL</span></div>
         <div class="stat-value" style="color: var(--neon-purple); text-shadow: 0 0 10px rgba(184, 41, 240, 0.5);">{{ gamification.getLevel().level }}</div>
         <div class="stat-footer">{{ gamification.getLevel().title }}</div>
@@ -157,20 +152,23 @@
           <div class="panel-title">PRODUTOS RECENTES</div>
           <div class="recent-list-horizontal">
             @for (item of produtosRecentes; track item.id) {
-              <div class="recent-card">
-                <div class="recent-card-icon" [style.background]="platColor(item.plataforma)" [style.borderColor]="platColor(item.plataforma)"></div>
+              <div class="recent-card"
+                   [class.status-alugado]="item.status && item.status.toLowerCase().includes('alugado')"
+                   [class.status-disponivel]="item.status && item.status.toLowerCase().includes('dispon')"
+                   [class.status-manutencao]="item.status && item.status.toLowerCase().includes('manuten')"
+                   [class.status-para-alugar]="item.status && item.status.toLowerCase().includes('alugar')">
+                <div class="recent-card-thumb" [attr.data-plataforma]="platIcon(item)">
+                  <span class="recent-platform-icon" [attr.data-plataforma]="platIcon(item)"></span>
+                </div>
                 <div class="recent-card-body">
                   <span class="recent-card-title">{{ item.titulo }}</span>
-                  <span class="recent-card-meta dim-text">{{ item.plataforma }}</span>
+                  @if (item.tipoItem === 'Jogo') {
+                    <span class="recent-card-meta dim-text">Console: {{ item.plataforma }}</span>
+                  } @else {
+                    <span class="recent-card-meta dim-text">Ano: {{ item.anoLancamento }}</span>
+                  }
                 </div>
-                <span class="recent-card-status"
-                      [style.color]="item.status && item.status.toLowerCase().includes('alugar') ? '#00ff88' :
-                                    item.status && item.status.toLowerCase().includes('alugado') ? '#ff8800' :
-                                    item.status && item.status.toLowerCase().includes('dispon') ? 'var(--neon-blue)' :
-                                    'var(--pacman-yellow)'"
-                      [style.boxShadow]="item.status && (item.status.toLowerCase().includes('alugar') || item.status.toLowerCase().includes('alugado')) ? '0 0 8px ' + (item.status.toLowerCase().includes('alugar') ? '#00ff88' : '#ff8800') : 'none'">
-                  {{ item.status }}
-                </span>
+                <span class="recent-card-status">{{ item.status }}</span>
               </div>
             }
             @if (produtosRecentes.length === 0) {

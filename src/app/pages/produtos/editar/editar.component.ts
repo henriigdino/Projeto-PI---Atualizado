@@ -103,7 +103,7 @@ export class EditarProdutoComponent implements OnInit {
 
   onStatusChange() {
     const s = this.form.get('status')?.value?.toLowerCase();
-    if (s === 'alugado' || s === 'para alugar') {
+    if (s === 'alugado') {
       this.form.patchValue({ condicao: 'Usado' });
     }
   }

@@ -7,7 +7,7 @@
       "tipoItem": "Jogo",
       "anoLancamento": "1996",
       "condicao": "Usado",
-      "status": "Alugado",
+      "status": "Manutenção",
       "id": "M3sMSZm4gBk"
     },
     {
@@ -17,7 +17,7 @@
       "tipoItem": "Jogo",
       "anoLancamento": "1986",
       "condicao": "Usado",
-      "status": "Para alugar",
+      "status": "Disponível",
       "id": "qfk0zINFCn4"
     },
     {
@@ -27,7 +27,7 @@
       "tipoItem": "Jogo",
       "anoLancamento": "1990",
       "condicao": "Usado",
-      "status": "Para alugar",
+      "status": "Disponível",
       "id": "l9uwq5ebZBM"
     },
     {

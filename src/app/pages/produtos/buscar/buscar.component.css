@@ -25,44 +25,100 @@
   min-width: 200px;
 }
 
-.result-card {
-  margin-top: 24px;
-  padding: 20px;
-  background: var(--bg-primary);
-  border: 2px solid var(--neon-blue);
-}
-
-.result-card h3 {
+.result-title {
   font-size: var(--font-scale-md);
-  margin: 0 0 16px 0;
+  margin-top: 28px;
+  margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(0, 242, 255, 0.2);
 }
 
-.result-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.produto-card {
+  background: var(--bg-secondary); border: 3px solid var(--bg-tertiary); border-radius: 8px;
+  padding: 20px; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.produto-card:hover { border-color: var(--neon-blue); box-shadow: var(--glow-blue); }
+.produto-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  transition: opacity 0.3s;
+}
+.produto-card.status-alugado::before { background: #ff8800; box-shadow: 0 0 10px #ff8800; opacity: 1; }
+.produto-card.status-disponivel::before { background: #00ff88; box-shadow: 0 0 10px #00ff88; opacity: 1; }
+.produto-card.status-manutencao::before { background: #ff3333; box-shadow: 0 0 10px #ff3333; opacity: 1; }
+
+.produto-card-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
 }
 
-.result-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.produto-thumb {
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+  font-size: 26px; background: var(--bg-primary); border: 2px solid var(--bg-tertiary);
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.produto-thumb::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 242, 255, 0.05));
+}
+.produto-thumb[data-plataforma="SNES"] { border-color: #e60012; }
+.produto-thumb[data-plataforma="NES"] { border-color: #8b0000; }
+.produto-thumb[data-plataforma="MegaDrive"] { border-color: #0055dd; }
+.produto-thumb[data-plataforma="PS1"] { border-color: #0288d1; }
+.produto-thumb[data-plataforma="PS2"] { border-color: #1a237e; }
+.produto-thumb[data-plataforma="Nintendo 64"] { border-color: #2e7d32; }
+.produto-thumb[data-plataforma="GameCube"] { border-color: #6a1b9a; }
+
+.platform-icon {
+  width: 24px; height: 24px; border: 2px solid; border-radius: 2px;
+  display: block; flex-shrink: 0; background: var(--bg-primary);
+}
+.platform-icon[data-plataforma="SNES"] { background: #e60012; border-color: #e60012; }
+.platform-icon[data-plataforma="NES"] { background: #8b0000; border-color: #8b0000; }
+.platform-icon[data-plataforma="MegaDrive"] { background: #0055dd; border-color: #0055dd; }
+.platform-icon[data-plataforma="PS1"] { background: #0288d1; border-color: #0288d1; }
+.platform-icon[data-plataforma="PS2"] { background: #1a237e; border-color: #1a237e; }
+.platform-icon[data-plataforma="Nintendo 64"] { background: #2e7d32; border-color: #2e7d32; }
+.platform-icon[data-plataforma="GameCube"] { background: #6a1b9a; border-color: #6a1b9a; }
+
+.produto-info { flex: 1; min-width: 0; }
+.produto-titulo { font-size: var(--font-scale-base); color: var(--text-primary); display: block; margin-bottom: 6px; }
+.produto-plataforma { font-family: var(--font-mono); font-size: var(--font-scale-sm); color: var(--neon-blue); display: block; }
+.produto-ano { font-family: var(--font-mono); font-size: var(--font-scale-xs); color: var(--neon-blue); display: block; }
+
+.produto-status-badge {
+  font-family: var(--font-mono); font-size: var(--font-scale-xs); padding: 6px 12px;
+  border: 1px solid; letter-spacing: 1px; white-space: nowrap;
+  color: var(--neon-blue); border-color: var(--neon-blue);
+}
+.status-alugado .produto-status-badge { border-color: #ff8800; color: #ff8800; box-shadow: 0 0 8px rgba(255, 136, 0, 0.4); }
+.status-disponivel .produto-status-badge { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }
+.status-manutencao .produto-status-badge { border-color: #ff3333; color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4); }
+
+.produto-details {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.produto-detail {
+  display: flex; gap: 8px; color: var(--text-dim); justify-content: space-between;
+}
+.produto-detail-value {
+  font-family: var(--font-mono); color: var(--pacman-yellow);
+  white-space: nowrap; text-shadow: 0 0 8px rgba(255, 222, 3, 0.4);
 }
 
-.result-field-label {
-  font-family: var(--font-mono);
-  font-size: var(--font-scale-sm);
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.produto-code {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; margin-top: 8px; margin-bottom: 10px;
+  background: var(--bg-primary); border: 2px solid var(--neon-blue);
+  box-shadow: var(--glow-blue);
 }
-
-.result-field-value {
-  font-family: var(--font-mono);
-  font-size: var(--font-scale-base);
-  color: var(--text-primary);
+.produto-code-label {
+  font-family: var(--font-mono); font-size: var(--font-scale-sm);
+  color: var(--text-dim); letter-spacing: 2px;
+}
+.produto-code-value {
+  font-family: var(--font-pixel); font-size: var(--font-scale-lg);
+  color: var(--pacman-yellow); text-shadow: 0 0 10px rgba(255, 222, 3, 0.5);
+  letter-spacing: 3px;
 }
 
 .erro-msg {
@@ -74,10 +130,4 @@
   color: var(--neon-pink);
   font-size: var(--font-scale-sm);
   text-align: center;
-}
-
-@media (max-width: 480px) {
-  .result-grid {
-    grid-template-columns: 1fr;
-  }
 }

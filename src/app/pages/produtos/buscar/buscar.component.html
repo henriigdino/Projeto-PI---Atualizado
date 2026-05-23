@@ -8,36 +8,36 @@
   </form>
 
   @if (ItemEncontrado) {
-    <div class="result-card">
-      <h3 class="neon-text">PRODUTO ENCONTRADO</h3>
-      <div class="result-grid">
-        <div class="result-field">
-          <span class="result-field-label">CÓDIGO</span>
-          <span class="result-field-value">{{ ItemEncontrado.codigo || ItemEncontrado.id }}</span>
+    <h3 class="neon-text result-title">PRODUTO ENCONTRADO</h3>
+    <div class="produto-card"
+         [class.status-alugado]="ItemEncontrado.status && ItemEncontrado.status.toLowerCase().includes('alugado')"
+         [class.status-disponivel]="ItemEncontrado.status && ItemEncontrado.status.toLowerCase().includes('dispon')"
+         [class.status-manutencao]="ItemEncontrado.status && ItemEncontrado.status.toLowerCase().includes('manuten')">
+      <div class="produto-card-top">
+        <div class="produto-thumb" [attr.data-plataforma]="platIcon(ItemEncontrado)">
+          <span class="platform-icon" [attr.data-plataforma]="platIcon(ItemEncontrado)"></span>
         </div>
-        <div class="result-field">
-          <span class="result-field-label">Título</span>
-          <span class="result-field-value">{{ ItemEncontrado.titulo }}</span>
+        <span class="produto-status-badge">{{ ItemEncontrado.status }}</span>
+      </div>
+      <div class="produto-info">
+        <span class="produto-titulo">{{ ItemEncontrado.titulo }}</span>
+        <div class="produto-code">
+          <span class="produto-code-label">CÓDIGO</span>
+          <span class="produto-code-value">{{ ItemEncontrado.codigo || ItemEncontrado.id }}</span>
         </div>
-        <div class="result-field">
-          <span class="result-field-label">Plataforma</span>
-          <span class="result-field-value">{{ ItemEncontrado.plataforma }}</span>
+        @if (ItemEncontrado.tipoItem !== 'Console') {
+          <span class="produto-plataforma">● {{ ItemEncontrado.plataforma }}</span>
+        }
+        <span class="produto-ano">● {{ ItemEncontrado.tipoItem === 'Console' ? 'Ano' : 'Lançamento' }}: {{ ItemEncontrado.anoLancamento }}</span>
+      </div>
+      <div class="produto-details">
+        <div class="produto-detail">
+          <span>TIPO</span>
+          <span class="produto-detail-value">{{ ItemEncontrado.tipoItem }}</span>
         </div>
-        <div class="result-field">
-          <span class="result-field-label">Tipo</span>
-          <span class="result-field-value">{{ ItemEncontrado.tipoItem }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">Ano</span>
-          <span class="result-field-value">{{ ItemEncontrado.anoLancamento }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">Condição</span>
-          <span class="result-field-value">{{ ItemEncontrado.condicao }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">Status</span>
-          <span class="result-field-value">{{ ItemEncontrado.status }}</span>
+        <div class="produto-detail">
+          <span>CONDIÇÃO</span>
+          <span class="produto-detail-value">{{ ItemEncontrado.condicao }}</span>
         </div>
       </div>
     </div>

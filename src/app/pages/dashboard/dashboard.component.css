@@ -78,7 +78,7 @@
 .banner-stat { font-size: var(--font-scale-base); color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
 .stat-icon { color: var(--neon-blue); font-size: var(--font-scale-sm); }
 
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .stat-card { text-align: center; padding: 24px 18px; }
 .stat-card-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
 .stat-icon-large { font-size: 22px; }
@@ -155,11 +155,47 @@
 .recent-list-horizontal { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
 .recent-card { display: grid; grid-template-columns: 48px 1fr; gap: 8px 12px; padding: 12px; background: var(--bg-primary); border: 2px solid var(--bg-tertiary); border-radius: 6px; transition: all 0.2s; }
 .recent-card:hover { border-color: var(--neon-blue); box-shadow: var(--glow-blue); transform: translateY(-2px); }
-.recent-card-icon { width: 48px; height: 48px; border: 2px solid; border-radius: 4px; grid-row: 1; grid-column: 1; }
+.recent-card-thumb {
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+  background: var(--bg-primary); border: 2px solid var(--bg-tertiary);
+  flex-shrink: 0; position: relative; overflow: hidden;
+  grid-row: 1; grid-column: 1;
+}
+.recent-card-thumb::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 242, 255, 0.05));
+}
+.recent-card-thumb[data-plataforma="SNES"] { border-color: #e60012; }
+.recent-card-thumb[data-plataforma="NES"] { border-color: #8b0000; }
+.recent-card-thumb[data-plataforma="MegaDrive"] { border-color: #0055dd; }
+.recent-card-thumb[data-plataforma="PS1"] { border-color: #0288d1; }
+.recent-card-thumb[data-plataforma="PS2"] { border-color: #1a237e; }
+.recent-card-thumb[data-plataforma="Nintendo 64"] { border-color: #2e7d32; }
+.recent-card-thumb[data-plataforma="GameCube"] { border-color: #6a1b9a; }
+.recent-platform-icon {
+  width: 24px; height: 24px; border: 2px solid; border-radius: 2px;
+  display: block; flex-shrink: 0; background: var(--bg-primary);
+}
+.recent-platform-icon[data-plataforma="SNES"] { background: #e60012; border-color: #e60012; }
+.recent-platform-icon[data-plataforma="NES"] { background: #8b0000; border-color: #8b0000; }
+.recent-platform-icon[data-plataforma="MegaDrive"] { background: #0055dd; border-color: #0055dd; }
+.recent-platform-icon[data-plataforma="PS1"] { background: #0288d1; border-color: #0288d1; }
+.recent-platform-icon[data-plataforma="PS2"] { background: #1a237e; border-color: #1a237e; }
+.recent-platform-icon[data-plataforma="Nintendo 64"] { background: #2e7d32; border-color: #2e7d32; }
+.recent-platform-icon[data-plataforma="GameCube"] { background: #6a1b9a; border-color: #6a1b9a; }
 .recent-card-body { min-width: 0; grid-row: 1; grid-column: 2; }
 .recent-card-title { font-size: var(--font-scale-sm); color: var(--text-primary); display: block; margin-bottom: 4px; }
 .recent-card-meta { font-family: var(--font-mono); font-size: var(--font-scale-xs); }
-.recent-card-status { font-family: var(--font-mono); font-size: var(--font-scale-xs); letter-spacing: 1px; padding: 4px 8px; border: 1px solid currentColor; grid-row: 2; grid-column: 1 / -1; justify-self: end; }
+.recent-card-status {
+  font-family: var(--font-mono); font-size: var(--font-scale-xs); letter-spacing: 2px;
+  padding: 6px 12px; text-align: center; text-transform: uppercase;
+  border: 1px solid; display: block;
+  grid-row: 2; grid-column: 1 / -1; color: var(--neon-blue); border-color: var(--neon-blue);
+}
+.recent-card.status-alugado .recent-card-status { border-color: #ff8800; color: #ff8800; }
+.recent-card.status-disponivel .recent-card-status { border-color: #00ff88; color: #00ff88; }
+.recent-card.status-manutencao .recent-card-status { border-color: #ff3333; color: #ff3333; }
+.recent-card.status-para-alugar .recent-card-status { border-color: #00ff88; color: #00ff88; }
 
 .sys-info { display: flex; flex-direction: column; gap: 8px; }
 .sys-row { font-family: var(--font-mono); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(0, 242, 255, 0.05); font-size: var(--font-scale-sm); }

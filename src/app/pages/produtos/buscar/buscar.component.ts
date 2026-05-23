@@ -18,6 +18,10 @@ export class BuscarProdutoComponent {
 
   constructor(private service: AcervoService) { }
 
+  platIcon(item: ItemAcervo): string {
+    return item.plataforma || (item.tipoItem === 'Console' ? item.titulo : '');
+  }
+
   buscarItem(): void {
     this.erroBusca = '';
     this.ItemEncontrado = null;

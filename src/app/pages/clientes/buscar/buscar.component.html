@@ -8,36 +8,32 @@
   </form>
 
   @if (clienteEncontrado) {
-    <div class="result-card">
-      <h3 class="neon-text">CLIENTE ENCONTRADO</h3>
-      <div class="result-grid">
-        <div class="result-field">
-          <span class="result-field-label">CÓDIGO</span>
-          <span class="result-field-value">{{ clienteEncontrado.codigo || clienteEncontrado.id }}</span>
+    <div class="cliente-card">
+      <div class="cliente-code">
+        <span class="cliente-code-label">CÓDIGO</span>
+        <span class="cliente-code-value">{{ clienteEncontrado.codigo || clienteEncontrado.id }}</span>
+      </div>
+      <span class="cliente-ranking"
+            [class.ranking-vip]="clienteEncontrado.ranking && (clienteEncontrado.ranking.toLowerCase().includes('vip') || clienteEncontrado.ranking.toLowerCase().includes('colecionador'))"
+            [class.ranking-gamer]="clienteEncontrado.ranking && clienteEncontrado.ranking.toLowerCase().includes('gamer')">
+        {{ clienteEncontrado.ranking }}
+      </span>
+      <span class="cliente-nome">{{ clienteEncontrado.nomeCompleto }}</span>
+      <span class="cliente-telefone">● Telefone: {{ clienteEncontrado.telefone }}</span>
+      <div class="cliente-xp">
+        <div class="xp-bar-mini">
+          <div class="xp-bar-mini-fill" [style.width.%]="xpPercent(clienteEncontrado.pontosXP)" [style.background]="'linear-gradient(90deg, ' + xpColor(clienteEncontrado.pontosXP) + ', rgba(255,255,255,0.5))'" [style.boxShadow]="'0 0 4px ' + xpColor(clienteEncontrado.pontosXP)"></div>
         </div>
-        <div class="result-field">
-          <span class="result-field-label">Nome</span>
-          <span class="result-field-value">{{ clienteEncontrado.nomeCompleto }}</span>
+        <span class="cliente-xp-text">{{ clienteEncontrado.pontosXP }} XP</span>
+      </div>
+      <div class="cliente-details">
+        <div class="cliente-detail">
+          <span>ALUGADO</span>
+          <span class="cliente-detail-value">{{ clienteEncontrado.itemAlugado || '---' }}</span>
         </div>
-        <div class="result-field">
-          <span class="result-field-label">Telefone</span>
-          <span class="result-field-value">{{ clienteEncontrado.telefone }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">XP</span>
-          <span class="result-field-value yellow-text">{{ clienteEncontrado.pontosXP }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">Ranking</span>
-          <span class="result-field-value">{{ clienteEncontrado.ranking }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">Item Alugado</span>
-          <span class="result-field-value">{{ clienteEncontrado.itemAlugado }}</span>
-        </div>
-        <div class="result-field">
-          <span class="result-field-label">Data Devolução</span>
-          <span class="result-field-value">{{ clienteEncontrado.dataDevolucao }}</span>
+        <div class="cliente-detail">
+          <span>DEVOLUÇÃO</span>
+          <span class="cliente-detail-value">{{ clienteEncontrado.dataDevolucao || '---' }}</span>
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ export class AdicionarProdutoComponent {
 
   onStatusChange() {
     const s = this.item.status?.toLowerCase();
-    if (s === 'alugado' || s === 'para alugar') {
+    if (s === 'alugado') {
       this.item.condicao = 'Usado';
     }
   }

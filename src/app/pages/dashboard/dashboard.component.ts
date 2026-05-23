@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { AcervoService } from '../../core/services/acervo.service';
 import { ClientesService } from '../../core/services/clientes.service';
 import { GamificationService, Achievement } from '../../core/services/gamification.service';
@@ -57,60 +59,75 @@ export class DashboardComponent implements OnInit, OnDestroy {
   carregarStats() {
     this.loading = true;
 
-    this.acervoService.listar().subscribe(dados => {
-      this.totalProdutos = dados.length;
-      this.itensAlugados = dados.filter(i =>
-        i.status?.toLowerCase().includes('alugado') || i.status?.toLowerCase().includes('locado')
-      ).length;
-      this.itensDisponiveis = dados.filter(i =>
-        i.status?.toLowerCase().includes('dispon')
-      ).length;
-      this.itensManutencao = dados.filter(i =>
-        i.status?.toLowerCase().includes('manuten')
-      ).length;
+    forkJoin({
+      acervo: this.acervoService.listar(),
+      clientes: this.clientesService.listar()
+    }).pipe(
+      finalize(() => this.loading = false)
+    ).subscribe({
+      next: ({ acervo, clientes }) => {
+        this.totalProdutos = acervo.length;
+        this.itensAlugados = acervo.filter(i =>
+          i.status?.toLowerCase().includes('alugado') || i.status?.toLowerCase().includes('locado')
+        ).length;
+        this.itensDisponiveis = acervo.filter(i =>
+          i.status?.toLowerCase().includes('dispon')
+        ).length;
+        this.itensManutencao = acervo.filter(i =>
+          i.status?.toLowerCase().includes('manuten')
+        ).length;
 
-      this.statusData = [
-        { label: 'DISPONÍVEL', count: this.itensDisponiveis, color: 'var(--neon-blue)' },
-        { label: 'ALUGADO', count: this.itensAlugados, color: 'var(--neon-pink)' },
-        { label: 'MANUTENÇÃO', count: this.itensManutencao, color: 'var(--pacman-yellow)' }
-      ];
+        this.statusData = [
+          { label: 'DISPONÍVEL', count: this.itensDisponiveis, color: '#00ff88' },
+          { label: 'ALUGADO', count: this.itensAlugados, color: '#ff8800' },
+          { label: 'MANUTENÇÃO', count: this.itensManutencao, color: '#ff3333' }
+        ];
 
-      const plataformaCores: Record<string, string> = {
-        SNES: '#e60012', NES: '#8b0000', MegaDrive: '#0055dd',
-        PS1: '#0288d1', PS2: '#1a237e', 'Nintendo 64': '#2e7d32',
-        GameCube: '#6a1b9a'
-      };
-      const pmap = new Map<string, number>();
-      dados.forEach(i => pmap.set(i.plataforma || 'OUTROS', (pmap.get(i.plataforma || 'OUTROS') || 0) + 1));
-      this.plataformaData = Array.from(pmap.entries())
-        .sort((a, b) => b[1] - a[1]).slice(0, 7)
-        .map(([label, count]) => ({ label, count, color: plataformaCores[label] || 'var(--text-dim)' }));
+        const plataformaCores: Record<string, string> = {
+          SNES: '#e60012', NES: '#8b0000', MegaDrive: '#0055dd',
+          PS1: '#0288d1', PS2: '#1a237e', 'Nintendo 64': '#2e7d32',
+          GameCube: '#6a1b9a'
+        };
+        const pmap = new Map<string, number>();
+        acervo.forEach(i => pmap.set(i.plataforma || 'OUTROS', (pmap.get(i.plataforma || 'OUTROS') || 0) + 1));
+        this.plataformaData = Array.from(pmap.entries())
+          .sort((a, b) => b[1] - a[1]).slice(0, 7)
+          .map(([label, count]) => ({ label, count, color: plataformaCores[label] || 'var(--text-dim)' }));
 
-      this.produtosRecentes = dados.slice(-4).reverse();
-      this.loading = false;
-    });
+        this.produtosRecentes = acervo.slice(-4).reverse();
 
-    this.clientesService.listar().subscribe(dados => {
-      this.totalClientes = dados.length;
-      this.todosClientes = dados;
-      this.clientesVip = dados.filter(c =>
-        c.ranking?.toLowerCase().includes('vip') || c.ranking?.toLowerCase().includes('colecionador')
-      ).length;
+        this.totalClientes = clientes.length;
+        this.todosClientes = clientes;
+        this.clientesVip = clientes.filter(c =>
+          c.ranking?.toLowerCase().includes('vip') || c.ranking?.toLowerCase().includes('colecionador')
+        ).length;
 
-      this.topClientes = [...dados]
-        .sort((a, b) => parseInt(b.pontosXP || '0') - parseInt(a.pontosXP || '0'))
-        .slice(0, 5);
+        this.topClientes = [...clientes]
+          .sort((a, b) => parseInt(b.pontosXP || '0') - parseInt(a.pontosXP || '0'))
+          .slice(0, 5);
 
-      this.clientesRecentes = dados.slice(-4).reverse();
+        this.clientesRecentes = clientes.slice(-4).reverse();
 
-      this.gamification.setXpFromClients(dados);
-      const novos = this.gamification.checkAchievements(this.totalProdutos, this.totalClientes);
-      if (novos.length > 0) {
-        this.newAchievements = novos;
-        this.showAchievementPopup = true;
-        setTimeout(() => this.showAchievementPopup = false, 5000);
+        this.gamification.setXpFromClients(clientes);
+        const novos = this.gamification.checkAchievements(this.totalProdutos, this.totalClientes);
+        if (novos.length > 0) {
+          this.newAchievements = novos;
+          this.showAchievementPopup = true;
+          setTimeout(() => this.showAchievementPopup = false, 5000);
+        }
+      },
+      error: () => {
+        this.statusData = [
+          { label: 'DISPONÍVEL', count: 0, color: '#00ff88' },
+          { label: 'ALUGADO', count: 0, color: '#ff8800' },
+          { label: 'MANUTENÇÃO', count: 0, color: '#ff3333' }
+        ];
+        this.plataformaData = [];
+        this.topClientes = [];
+        this.produtosRecentes = [];
+        this.clientesRecentes = [];
+        this.todosClientes = [];
       }
-
     });
   }
 
@@ -129,6 +146,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       GameCube: '#6a1b9a'
     };
     return cores[plataforma || ''] || 'var(--text-dim)';
+  }
+
+  platIcon(item: ItemAcervo): string {
+    return item.plataforma || (item.tipoItem === 'Console' ? item.titulo : '');
   }
 
   barWidth(count: number, total: number): string {

@@ -37,8 +37,8 @@
   transition: opacity 0.3s;
 }
 .produto-card.status-alugado::before { background: #ff8800; box-shadow: 0 0 10px #ff8800; opacity: 1; }
-.produto-card.status-disponivel::before { background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); opacity: 1; }
-.produto-card.status-manutencao::before { background: var(--pacman-yellow); box-shadow: 0 0 10px var(--pacman-yellow); opacity: 1; }
+.produto-card.status-disponivel::before { background: #00ff88; box-shadow: 0 0 10px #00ff88; opacity: 1; }
+.produto-card.status-manutencao::before { background: #ff3333; box-shadow: 0 0 10px #ff3333; opacity: 1; }
 .produto-card.status-raro::before { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); opacity: 1; }
 .produto-card.status-para-alugar::before { background: #00ff88; box-shadow: 0 0 10px #00ff88; opacity: 1; }
 
@@ -88,8 +88,8 @@
   color: var(--neon-blue); border-color: var(--neon-blue);
 }
 .status-alugado .produto-status-badge { border-color: #ff8800; color: #ff8800; box-shadow: 0 0 8px rgba(255, 136, 0, 0.4); }
-.status-disponivel .produto-status-badge { border-color: var(--neon-blue); color: var(--neon-blue); }
-.status-manutencao .produto-status-badge { border-color: var(--pacman-yellow); color: var(--pacman-yellow); }
+.status-disponivel .produto-status-badge { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }
+.status-manutencao .produto-status-badge { border-color: #ff3333; color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4); }
 .status-raro .produto-status-badge { border-color: var(--neon-purple); color: var(--neon-purple); }
 .status-para-alugar .produto-status-badge { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }
 
