@@ -8,6 +8,15 @@
 }
 .list-count { font-family: var(--font-mono); font-size: var(--font-scale-base); letter-spacing: 1px; }
 
+.abas { display: flex; gap: 8px; margin-bottom: 24px; }
+.aba {
+  font-family: var(--font-pixel); font-size: var(--font-scale-xs); padding: 10px 20px;
+  background: transparent; color: var(--text-dim); border: 2px solid var(--bg-tertiary);
+  cursor: pointer; transition: all 0.2s; letter-spacing: 1px;
+}
+.aba:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+.aba-ativa { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); background: rgba(0, 242, 255, 0.05); }
+
 .clientes-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
@@ -25,7 +34,12 @@
 .cliente-card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); opacity: 1;
+  transition: background 0.3s, box-shadow 0.3s;
 }
+.cliente-card.card-iniciante::before { background: var(--text-dim); box-shadow: 0 0 10px var(--text-dim); }
+.cliente-card.card-gamer::before { background: #ff3333; box-shadow: 0 0 10px #ff3333; }
+.cliente-card.card-veterano::before { background: #00ff88; box-shadow: 0 0 10px #00ff88; }
+.cliente-card.card-colecionador::before { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
 
 .cliente-card-top {
   display: flex; justify-content: space-between; align-items: flex-start;
@@ -42,7 +56,8 @@
   color: var(--text-primary);
 }
 .ranking-vip { border-color: var(--neon-purple); color: var(--neon-purple); text-shadow: 0 0 8px rgba(184, 41, 240, 0.3); }
-.ranking-gamer { border-color: var(--neon-blue); color: var(--neon-blue); text-shadow: 0 0 8px rgba(0, 242, 255, 0.3); }
+.ranking-gamer { border-color: #ff3333; color: #ff3333; text-shadow: 0 0 8px rgba(255, 51, 51, 0.3); }
+.ranking-veterano { border-color: #00ff88; color: #00ff88; text-shadow: 0 0 8px rgba(0, 255, 136, 0.3); }
 
 .cliente-nome {
   font-size: var(--font-scale-base); color: var(--text-primary); display: block;

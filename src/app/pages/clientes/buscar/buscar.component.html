@@ -15,7 +15,8 @@
       </div>
       <span class="cliente-ranking"
             [class.ranking-vip]="clienteEncontrado.ranking && (clienteEncontrado.ranking.toLowerCase().includes('vip') || clienteEncontrado.ranking.toLowerCase().includes('colecionador'))"
-            [class.ranking-gamer]="clienteEncontrado.ranking && clienteEncontrado.ranking.toLowerCase().includes('gamer')">
+            [class.ranking-gamer]="clienteEncontrado.ranking && clienteEncontrado.ranking.toLowerCase().includes('gamer')"
+            [class.ranking-veterano]="clienteEncontrado.ranking && clienteEncontrado.ranking.toLowerCase().includes('veterano')">
         {{ clienteEncontrado.ranking }}
       </span>
       <span class="cliente-nome">{{ clienteEncontrado.nomeCompleto }}</span>

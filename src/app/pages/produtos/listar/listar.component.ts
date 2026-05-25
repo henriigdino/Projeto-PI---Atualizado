@@ -37,7 +37,7 @@ export class ListarProdutosComponent implements OnInit {
 
   carregarDados() {
     this.service.listar().subscribe((dados) => {
-      this.listaItens = dados;
+      this.listaItens = dados.reverse();
     });
   }
 

@@ -1,16 +1,27 @@
 <div class="list-container animate-in">
   <div class="list-header">
-    <span class="list-count neon-text">TOTAL: {{ listaClientes.length }} CLIENTES</span>
+    <span class="list-count neon-text">TOTAL: {{ clientesFiltrados.length }} CLIENTES</span>
+  </div>
+
+  <div class="abas">
+    <button class="aba" [class.aba-ativa]="abaAtiva === 'todos'" (click)="abaAtiva = 'todos'">TODOS</button>
+    <button class="aba" [class.aba-ativa]="abaAtiva === 'consoles'" (click)="abaAtiva = 'consoles'">CONSOLES</button>
+    <button class="aba" [class.aba-ativa]="abaAtiva === 'jogos'" (click)="abaAtiva = 'jogos'">JOGOS</button>
   </div>
 
   <div class="clientes-grid">
-    @for (c of listaClientes; track c.id) {
-      <div class="cliente-card">
+    @for (c of clientesFiltrados; track c.id) {
+      <div class="cliente-card"
+             [class.card-iniciante]="c.ranking && c.ranking.toLowerCase().includes('iniciante')"
+             [class.card-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')"
+             [class.card-veterano]="c.ranking && c.ranking.toLowerCase().includes('veterano')"
+             [class.card-colecionador]="c.ranking && (c.ranking.toLowerCase().includes('colecionador') || c.ranking.toLowerCase().includes('vip'))">
         <div class="cliente-card-top">
           <span class="cliente-codigo">{{ c.codigo || c.id }}</span>
           <span class="cliente-ranking"
                 [class.ranking-vip]="c.ranking && (c.ranking.toLowerCase().includes('vip') || c.ranking.toLowerCase().includes('colecionador'))"
-                [class.ranking-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')">
+                [class.ranking-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')"
+                [class.ranking-veterano]="c.ranking && c.ranking.toLowerCase().includes('veterano')">
             {{ c.ranking }}
           </span>
         </div>
@@ -42,9 +53,9 @@
         </div>
       </div>
     }
-    @if (listaClientes.length === 0) {
+    @if (clientesFiltrados.length === 0) {
       <div class="empty-msg" style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-dim);">
-        NENHUM CLIENTE CADASTRADO
+        NENHUM CLIENTE {{ abaAtiva === 'consoles' ? '(CONSOLE)' : abaAtiva === 'jogos' ? '(JOGO)' : '' }} ENCONTRADO
       </div>
     }
   </div>

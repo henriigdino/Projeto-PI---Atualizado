@@ -35,15 +35,29 @@
       <span class="erro-validacao">Campo obrigatório</span>
     }
 
-    <label>Item Alugado:</label>
-    <select name="itemAlugado" #item="ngModel" [(ngModel)]="cliente.itemAlugado" required>
-      <option value="">Selecione...</option>
-      @for (p of produtos; track p.id) {
-        <option [value]="p.codigo">{{ p.codigo }} — {{ p.titulo }} ({{ p.plataforma }})</option>
-      }
+    <label>Tipo de Item:</label>
+    <select name="tipoItemAlugado" [ngModel]="tipoItemAlugado" (ngModelChange)="tipoItemAlugado = $event; cliente.itemAlugado = ''" required>
+      <option value="Console">Console</option>
+      <option value="Jogo">Jogo</option>
     </select>
-    @if (item.invalid && item.touched) {
-      <span class="erro-validacao">Campo obrigatório</span>
+
+    @if (tipoItemAlugado === 'Console') {
+      <label>Item Alugado (Console):</label>
+      <select name="itemAlugado" #itemCons="ngModel" [(ngModel)]="cliente.itemAlugado" required>
+        <option value="">Selecione...</option>
+        @for (c of consoles; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+      @if (itemCons.invalid && itemCons.touched) {
+        <span class="erro-validacao">Campo obrigatório</span>
+      }
+    } @else {
+      <label>Item Alugado (Jogo):</label>
+      <input type="text" name="itemAlugado" #itemJogo="ngModel" [(ngModel)]="cliente.itemAlugado" required />
+      @if (itemJogo.invalid && itemJogo.touched) {
+        <span class="erro-validacao">Campo obrigatório</span>
+      }
     }
 
     <label>Data Devolução:</label>

@@ -18,6 +18,7 @@ export class EditarProdutoComponent implements OnInit {
   idItem!: string;
   erroBusca: string = '';
   private toastService = inject(ToastService);
+  plataformas: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +34,14 @@ export class EditarProdutoComponent implements OnInit {
       tipoItem: ['', Validators.required],
       anoLancamento: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       condicao: [''], status: ['', Validators.required]
+    });
+    this.service.listar().subscribe(itens => {
+      const unique = new Set<string>();
+      itens.forEach(i => {
+        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
+        if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
+      });
+      this.plataformas = Array.from(unique).sort();
     });
     this.form.get('tipoItem')?.valueChanges.subscribe(val => {
       const platCtrl = this.form.get('plataforma');

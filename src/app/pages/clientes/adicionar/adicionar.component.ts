@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
-import { Cliente, ItemAcervo } from '../../../core/types/types';
+import { Cliente } from '../../../core/types/types';
 import { ClientesService } from '../../../core/services/clientes.service';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { Router } from '@angular/router';
@@ -16,12 +16,14 @@ import { ToastService } from '../../../core/services/toast.service';
 export class AdicionarClienteComponent implements OnInit {
   titulo = 'Cadastrar Cliente';
   private toastService = inject(ToastService);
-  produtos: ItemAcervo[] = [];
 
   cliente: Cliente = {
     id: '', codigo: '', nomeCompleto: '', telefone: '',
     pontosXP: '', ranking: '', itemAlugado: '', dataDevolucao: ''
   };
+
+  tipoItemAlugado = 'Jogo';
+  consoles: string[] = [];
 
   constructor(
     private service: ClientesService,
@@ -31,7 +33,12 @@ export class AdicionarClienteComponent implements OnInit {
 
   ngOnInit() {
     this.acervoService.listar().subscribe(itens => {
-      this.produtos = itens.filter(i => i.codigo);
+      const unique = new Set<string>();
+      itens.forEach(i => {
+        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
+        if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
+      });
+      this.consoles = Array.from(unique).sort();
     });
   }
 

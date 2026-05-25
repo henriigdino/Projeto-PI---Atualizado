@@ -91,9 +91,14 @@
   text-shadow: 0 0 8px rgba(184, 41, 240, 0.3);
 }
 .ranking-gamer {
-  border-color: var(--neon-blue);
-  color: var(--neon-blue);
-  text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+  border-color: #ff3333;
+  color: #ff3333;
+  text-shadow: 0 0 8px rgba(255, 51, 51, 0.3);
+}
+.ranking-veterano {
+  border-color: #00ff88;
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
 }
 
 .cliente-nome {

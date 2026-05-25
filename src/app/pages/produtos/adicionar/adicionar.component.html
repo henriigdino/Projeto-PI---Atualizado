@@ -36,13 +36,9 @@
       <label>PLATAFORMA:</label>
       <select name="plataforma" [(ngModel)]="item.plataforma" required>
         <option value="">Selecione...</option>
-        <option value="SNES">SNES</option>
-        <option value="NES">NES</option>
-        <option value="MegaDrive">MegaDrive</option>
-        <option value="PS1">PS1</option>
-        <option value="PS2">PS2</option>
-        <option value="Nintendo 64">Nintendo 64</option>
-        <option value="GameCube">GameCube</option>
+        @for (p of plataformas; track p) {
+          <option [value]="p">{{ p }}</option>
+        }
       </select>
     }
 

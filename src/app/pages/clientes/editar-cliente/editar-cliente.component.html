@@ -27,8 +27,24 @@
       <option value="Colecionador">Colecionador</option>
     </select>
 
-    <label>Item Alugado:</label>
-    <input formControlName="itemAlugado" type="text" />
+    <label>Tipo de Item:</label>
+    <select [ngModel]="tipoItemAlugado" (ngModelChange)="tipoItemAlugado = $event; form.patchValue({itemAlugado: ''})" [ngModelOptions]="{standalone: true}">
+      <option value="Console">Console</option>
+      <option value="Jogo">Jogo</option>
+    </select>
+
+    @if (tipoItemAlugado === 'Console') {
+      <label>Item Alugado (Console):</label>
+      <select formControlName="itemAlugado">
+        <option value="">Selecione...</option>
+        @for (c of consoles; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+    } @else {
+      <label>Item Alugado (Jogo):</label>
+      <input formControlName="itemAlugado" type="text" />
+    }
 
     <label>Data Devolução:</label>
     <input formControlName="dataDevolucao" type="date" />

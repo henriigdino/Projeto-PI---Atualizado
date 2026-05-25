@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { ItemAcervo } from '../../../core/types/types';
 import { AcervoService } from '../../../core/services/acervo.service';
@@ -12,9 +12,10 @@ import { ToastService } from '../../../core/services/toast.service';
   templateUrl: './adicionar.component.html',
   styleUrl: './adicionar.component.css'
 })
-export class AdicionarProdutoComponent {
+export class AdicionarProdutoComponent implements OnInit {
   titulo = 'Cadastrar Produto';
   private toastService = inject(ToastService);
+  plataformas: string[] = [];
 
   item: ItemAcervo = {
     id: '', codigo: '', titulo: '', plataforma: '', tipoItem: '',
@@ -25,6 +26,17 @@ export class AdicionarProdutoComponent {
     private service: AcervoService,
     private router: Router
   ) { }
+
+  ngOnInit() {
+    this.service.listar().subscribe(itens => {
+      const unique = new Set<string>();
+      itens.forEach(i => {
+        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
+        if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
+      });
+      this.plataformas = Array.from(unique).sort();
+    });
+  }
 
   onTipoChange() {
     if (this.item.tipoItem === 'Console') {

@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ClientesService } from '../../../core/services/clientes.service';
+import { AcervoService } from '../../../core/services/acervo.service';
 import { CommonModule } from '@angular/common';
 import { Cliente } from '../../../core/types/types';
 import { ToastService } from '../../../core/services/toast.service';
@@ -18,12 +19,15 @@ export class EditarClienteComponent implements OnInit {
   idCliente!: string;
   erroBusca: string = '';
   private toastService = inject(ToastService);
+  tipoItemAlugado = 'Jogo';
+  consoles: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private service: ClientesService
+    private service: ClientesService,
+    private acervoService: AcervoService
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +37,16 @@ export class EditarClienteComponent implements OnInit {
       ranking: [''], itemAlugado: [''], dataDevolucao: ['']
     });
     const idDaUrl = this.route.snapshot.paramMap.get('id');
-    if (idDaUrl) { this.idCliente = idDaUrl; this.buscarCliente(); }
+    if (idDaUrl) { this.idCliente = idDaUrl; }
+    this.acervoService.listar().subscribe(itens => {
+      const unique = new Set<string>();
+      itens.forEach(i => {
+        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
+        if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
+      });
+      this.consoles = Array.from(unique).sort();
+      if (this.idCliente) { this.buscarCliente(); }
+    });
   }
 
   buscarCliente(): void {
@@ -43,12 +56,14 @@ export class EditarClienteComponent implements OnInit {
         next: (dados) => {
           if (dados) {
             this.form.patchValue(dados);
+            this.definirTipoItem(dados.itemAlugado);
           } else {
             this.service.listar().subscribe(lista => {
               const porCodigo = lista.find(c => c.codigo === this.idCliente);
               if (porCodigo) {
                 this.idCliente = porCodigo.id;
                 this.form.patchValue(porCodigo);
+                this.definirTipoItem(porCodigo.itemAlugado);
               } else {
                 this.erroBusca = 'Cliente não encontrado.';
               }
@@ -57,6 +72,14 @@ export class EditarClienteComponent implements OnInit {
         },
         error: () => this.erroBusca = 'Cliente não encontrado. Verifique o código.'
       });
+    }
+  }
+
+  private definirTipoItem(item: string | undefined) {
+    if (item && this.consoles.includes(item)) {
+      this.tipoItemAlugado = 'Console';
+    } else {
+      this.tipoItemAlugado = 'Jogo';
     }
   }
 
