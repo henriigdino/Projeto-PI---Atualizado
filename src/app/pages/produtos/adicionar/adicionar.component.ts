@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
-import { ItemAcervo } from '../../../core/types/types';
+import { CONSOLES, ItemAcervo } from '../../../core/types/types';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
@@ -29,9 +29,8 @@ export class AdicionarProdutoComponent implements OnInit {
 
   ngOnInit() {
     this.service.listar().subscribe(itens => {
-      const unique = new Set<string>();
+      const unique = new Set<string>([...CONSOLES]);
       itens.forEach(i => {
-        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
         if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
       });
       this.plataformas = Array.from(unique).sort();

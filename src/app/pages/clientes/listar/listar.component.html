@@ -17,13 +17,16 @@
              [class.card-veterano]="c.ranking && c.ranking.toLowerCase().includes('veterano')"
              [class.card-colecionador]="c.ranking && (c.ranking.toLowerCase().includes('colecionador') || c.ranking.toLowerCase().includes('vip'))">
         <div class="cliente-card-top">
-          <span class="cliente-codigo">{{ c.codigo || c.id }}</span>
-          <span class="cliente-ranking"
-                [class.ranking-vip]="c.ranking && (c.ranking.toLowerCase().includes('vip') || c.ranking.toLowerCase().includes('colecionador'))"
-                [class.ranking-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')"
-                [class.ranking-veterano]="c.ranking && c.ranking.toLowerCase().includes('veterano')">
-            {{ c.ranking }}
-          </span>
+          <span class="cliente-codigo">Código: {{ c.codigo || c.id }}</span>
+          <div class="cliente-top-right">
+            <span class="cliente-tipo-badge" [attr.data-tipo]="tipoItemCliente(c)">{{ tipoItemCliente(c) }}</span>
+            <span class="cliente-ranking"
+                  [class.ranking-vip]="c.ranking && (c.ranking.toLowerCase().includes('vip') || c.ranking.toLowerCase().includes('colecionador'))"
+                  [class.ranking-gamer]="c.ranking && c.ranking.toLowerCase().includes('gamer')"
+                  [class.ranking-veterano]="c.ranking && c.ranking.toLowerCase().includes('veterano')">
+              {{ c.ranking }}
+            </span>
+          </div>
         </div>
 
         <span class="cliente-nome">{{ c.nomeCompleto }}</span>
@@ -39,7 +42,11 @@
         <div class="cliente-details">
           <div class="cliente-detail">
             <span>ALUGADO</span>
-            <span class="cliente-detail-value">{{ c.itemAlugado || '---' }}</span>
+            @if (produtoAlugado(c); as item) {
+              <span class="cliente-detail-value">{{ item.titulo }}{{ item.tipoItem !== 'Console' ? ' (' + item.plataforma + ')' : '' }}</span>
+            } @else {
+              <span class="cliente-detail-value">{{ c.itemAlugado || '---' }}</span>
+            }
           </div>
           <div class="cliente-detail">
             <span>DEVOLUÇÃO</span>

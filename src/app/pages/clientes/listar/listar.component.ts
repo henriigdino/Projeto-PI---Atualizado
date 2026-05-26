@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Cliente } from '../../../core/types/types';
+import { CONSOLES, Cliente, ItemAcervo } from '../../../core/types/types';
 import { ClientesService } from '../../../core/services/clientes.service';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ export class ListarClientesComponent implements OnInit {
   listaClientes: Cliente[] = [];
   abaAtiva: 'todos' | 'jogos' | 'consoles' = 'todos';
   consoles: string[] = [];
+  itensAcervo: ItemAcervo[] = [];
 
   constructor(
     private service: ClientesService,
@@ -48,6 +49,24 @@ export class ListarClientesComponent implements OnInit {
     this.service.listar().subscribe((dados) => {
       this.listaClientes = dados.reverse();
     }); 
+  }
+
+  tipoItemCliente(c: Cliente): string {
+    return c.itemAlugado && CONSOLES.includes(c.itemAlugado) ? 'Console' : 'Jogo';
+  }
+
+  produtoAlugado(c: Cliente): ItemAcervo | null {
+    if (!c.itemAlugado) return null;
+    if (CONSOLES.includes(c.itemAlugado)) {
+      return this.itensAcervo.find(i => i.tipoItem === 'Console' && i.titulo === c.itemAlugado) || null;
+    }
+    const parts = c.itemAlugado.split(' - ');
+    if (parts.length >= 2) {
+      const plataforma = parts[parts.length - 1];
+      const titulo = parts.slice(0, -1).join(' - ');
+      return this.itensAcervo.find(i => i.tipoItem === 'Jogo' && i.titulo === titulo && i.plataforma === plataforma) || null;
+    }
+    return null;
   }
 
   excluir(id: string) {

@@ -10,6 +10,8 @@ export interface ItemAcervo {
   status: string;
 }
 
+export const CONSOLES = ['SNES', 'NES', 'MegaDrive', 'PS1', 'PS2', 'Nintendo 64', 'GameCube'];
+
 // GRUPO 2 — GESTÃO DE CLIENTES
 export interface Cliente {
   id: string;

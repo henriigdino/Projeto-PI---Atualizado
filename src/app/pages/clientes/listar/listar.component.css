@@ -42,18 +42,35 @@
 .cliente-card.card-colecionador::before { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
 
 .cliente-card-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
+  display: flex; justify-content: space-between; align-items: center;
 }
 
 .cliente-codigo {
   font-family: var(--font-mono); font-size: var(--font-scale-xs);
-  color: var(--text-dim);
+  color: var(--pacman-yellow);
+  text-shadow: 0 0 8px rgba(255, 222, 3, 0.3);
+  letter-spacing: 0.5px;
 }
+
+.cliente-top-right {
+  display: flex; flex-direction: column; align-items: stretch; gap: 4px;
+}
+
+.cliente-tipo-badge {
+  font-family: var(--font-pixel);
+  font-size: 9px; padding: 3px 8px; letter-spacing: 1px;
+  color: var(--bg-primary); border: none;
+  text-transform: uppercase;
+  text-align: center;
+}
+.cliente-tipo-badge[data-tipo="Console"] { background: var(--pacman-yellow); }
+.cliente-tipo-badge[data-tipo="Jogo"] { background: var(--neon-pink); }
 
 .cliente-ranking {
   font-family: var(--font-mono); font-size: var(--font-scale-xs);
   padding: 4px 10px; border: 1px solid var(--bg-tertiary);
   color: var(--text-primary);
+  text-align: center;
 }
 .ranking-vip { border-color: var(--neon-purple); color: var(--neon-purple); text-shadow: 0 0 8px rgba(184, 41, 240, 0.3); }
 .ranking-gamer { border-color: #ff3333; color: #ff3333; text-shadow: 0 0 8px rgba(255, 51, 51, 0.3); }
@@ -117,13 +134,13 @@
 .cliente-actions .btn-excluir {
   font-family: var(--font-pixel); flex: 1; text-align: center;
   font-size: var(--font-scale-xs); padding: 10px 12px; min-width: 0;
-  background: transparent; color: var(--neon-pink);
-  border: 1px solid var(--neon-pink); cursor: pointer;
+  background: transparent; color: #ff2020;
+  border: 1px solid #ff2020; cursor: pointer;
   transition: all 0.2s;
 }
 .cliente-actions .btn-excluir:hover {
-  background: var(--neon-pink); color: var(--bg-primary);
-  box-shadow: var(--glow-pink);
+  background: #ff2020; color: var(--bg-primary);
+  box-shadow: 0 0 12px rgba(255, 32, 32, 0.6);
 }
 
 @media (max-width: 600px) {

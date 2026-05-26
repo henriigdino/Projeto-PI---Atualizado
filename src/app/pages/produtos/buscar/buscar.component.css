@@ -94,11 +94,14 @@
 .status-disponivel .produto-status-badge { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }
 .status-manutencao .produto-status-badge { border-color: #ff3333; color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4); }
 
-.produto-details {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-}
 .produto-detail {
-  display: flex; gap: 8px; color: var(--text-dim); justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+}
+.produto-detail-label {
+  font-family: var(--font-mono); font-size: var(--font-scale-sm);
+  color: var(--text-dim); letter-spacing: 1px;
 }
 .produto-detail-value {
   font-family: var(--font-mono); color: var(--pacman-yellow);

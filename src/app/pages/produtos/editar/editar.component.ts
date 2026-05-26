@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { CommonModule } from '@angular/common';
-import { ItemAcervo } from '../../../core/types/types';
+import { CONSOLES, ItemAcervo } from '../../../core/types/types';
 import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
@@ -36,9 +36,8 @@ export class EditarProdutoComponent implements OnInit {
       condicao: [''], status: ['', Validators.required]
     });
     this.service.listar().subscribe(itens => {
-      const unique = new Set<string>();
+      const unique = new Set<string>([...CONSOLES]);
       itens.forEach(i => {
-        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
         if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
       });
       this.plataformas = Array.from(unique).sort();

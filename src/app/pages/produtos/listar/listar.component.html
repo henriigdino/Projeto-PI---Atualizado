@@ -21,7 +21,10 @@
           <div class="produto-thumb" [attr.data-plataforma]="platIcon(f)">
             <span class="platform-icon" [attr.data-plataforma]="platIcon(f)"></span>
           </div>
-          <span class="produto-status-badge">{{ f.status }}</span>
+          <div class="produto-top-right">
+            <span class="produto-tipo-badge" [attr.data-tipo]="f.tipoItem">{{ f.tipoItem }}</span>
+            <span class="produto-status-badge">{{ f.status }}</span>
+          </div>
         </div>
 
         <div class="produto-info">
@@ -33,10 +36,6 @@
         </div>
 
         <div class="produto-details">
-          <div class="produto-detail">
-            <span>TIPO</span>
-            <span class="produto-detail-value">{{ f.tipoItem }}</span>
-          </div>
           <div class="produto-detail">
             <span>CÓDIGO</span>
             <span class="produto-detail-value">{{ f.codigo || f.id }}</span>

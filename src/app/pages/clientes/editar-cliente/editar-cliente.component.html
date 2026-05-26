@@ -43,7 +43,12 @@
       </select>
     } @else {
       <label>Item Alugado (Jogo):</label>
-      <input formControlName="itemAlugado" type="text" />
+      <select formControlName="itemAlugado">
+        <option value="">Selecione...</option>
+        @for (j of jogos; track j) {
+          <option [value]="j">{{ j }}</option>
+        }
+      </select>
     }
 
     <label>Data Devolução:</label>

@@ -54,9 +54,14 @@
       }
     } @else {
       <label>Item Alugado (Jogo):</label>
-      <input type="text" name="itemAlugado" #itemJogo="ngModel" [(ngModel)]="cliente.itemAlugado" required />
+      <select name="itemAlugado" #itemJogo="ngModel" [(ngModel)]="cliente.itemAlugado" required>
+        <option value="">Selecione...</option>
+        @for (j of jogos; track j) {
+          <option [value]="j">{{ j }}</option>
+        }
+      </select>
       @if (itemJogo.invalid && itemJogo.touched) {
-        <span class="erro-validacao">Campo obrigatÃ³rio</span>
+        <span class="erro-validacao">Campo obrigatório</span>
       }
     }
 

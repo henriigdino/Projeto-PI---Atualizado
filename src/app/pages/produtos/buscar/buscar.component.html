@@ -30,15 +30,9 @@
         }
         <span class="produto-ano">● {{ ItemEncontrado.tipoItem === 'Console' ? 'Ano' : 'Lançamento' }}: {{ ItemEncontrado.anoLancamento }}</span>
       </div>
-      <div class="produto-details">
-        <div class="produto-detail">
-          <span>TIPO</span>
-          <span class="produto-detail-value">{{ ItemEncontrado.tipoItem }}</span>
-        </div>
-        <div class="produto-detail">
-          <span>CONDIÇÃO</span>
-          <span class="produto-detail-value">{{ ItemEncontrado.condicao }}</span>
-        </div>
+      <div class="produto-detail produto-detail-full">
+        <span class="produto-detail-label">Tipo:</span>
+        <span class="produto-detail-value">{{ ItemEncontrado.tipoItem }}</span>
       </div>
     </div>
   }

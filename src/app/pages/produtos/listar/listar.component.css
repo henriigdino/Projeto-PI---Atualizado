@@ -81,10 +81,25 @@
 .produto-plataforma { font-family: var(--font-mono); font-size: var(--font-scale-sm); color: var(--neon-blue); display: block; }
 .produto-ano { font-family: var(--font-mono); font-size: var(--font-scale-xs); color: var(--neon-blue); display: block; }
 
+.produto-top-right {
+  display: flex; flex-direction: column; align-items: stretch; gap: 4px;
+}
+
+.produto-tipo-badge {
+  font-family: var(--font-pixel);
+  font-size: 9px; padding: 3px 8px; letter-spacing: 1px;
+  color: var(--bg-primary); border: none;
+  text-transform: uppercase;
+  text-align: center;
+}
+.produto-tipo-badge[data-tipo="Console"] { background: var(--pacman-yellow); }
+.produto-tipo-badge[data-tipo="Jogo"] { background: var(--neon-pink); }
+
 .produto-status-badge {
   font-family: var(--font-mono);
   font-size: var(--font-scale-xs); padding: 6px 12px; border: 1px solid; letter-spacing: 1px;
   white-space: nowrap;
+  text-align: center;
   color: var(--neon-blue); border-color: var(--neon-blue);
 }
 .status-alugado .produto-status-badge { border-color: #ff8800; color: #ff8800; box-shadow: 0 0 8px rgba(255, 136, 0, 0.4); }
@@ -130,15 +145,15 @@
   flex: 1; text-align: center; font-size: var(--font-scale-xs);
   padding: 10px 12px; min-width: 0;
   background: transparent;
-  color: var(--neon-pink);
-  border: 1px solid var(--neon-pink);
+  color: #ff2020;
+  border: 1px solid #ff2020;
   cursor: pointer;
   transition: all 0.2s;
 }
 .produto-actions .btn-excluir:hover {
-  background: var(--neon-pink);
+  background: #ff2020;
   color: var(--bg-primary);
-  box-shadow: var(--glow-pink);
+  box-shadow: 0 0 12px rgba(255, 32, 32, 0.6);
 }
 
 @media (max-width: 600px) {

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
-import { Cliente } from '../../../core/types/types';
+import { CONSOLES, Cliente } from '../../../core/types/types';
 import { ClientesService } from '../../../core/services/clientes.service';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class AdicionarClienteComponent implements OnInit {
 
   tipoItemAlugado = 'Jogo';
   consoles: string[] = [];
+  jogos: string[] = [];
 
   constructor(
     private service: ClientesService,
@@ -33,12 +34,14 @@ export class AdicionarClienteComponent implements OnInit {
 
   ngOnInit() {
     this.acervoService.listar().subscribe(itens => {
-      const unique = new Set<string>();
-      itens.forEach(i => {
-        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
-        if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
-      });
-      this.consoles = Array.from(unique).sort();
+      this.consoles = itens
+        .filter(i => i.tipoItem === 'Console' && i.titulo && i.status === 'Alugado')
+        .map(i => i.titulo)
+        .sort();
+      this.jogos = itens
+        .filter(i => i.tipoItem === 'Jogo' && i.titulo && i.status === 'Alugado')
+        .map(i => i.titulo + ' - ' + i.plataforma)
+        .sort();
     });
   }
 

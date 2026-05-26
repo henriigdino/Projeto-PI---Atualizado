@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angul
 import { ClientesService } from '../../../core/services/clientes.service';
 import { AcervoService } from '../../../core/services/acervo.service';
 import { CommonModule } from '@angular/common';
-import { Cliente } from '../../../core/types/types';
+import { CONSOLES, Cliente } from '../../../core/types/types';
 import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
@@ -21,6 +21,8 @@ export class EditarClienteComponent implements OnInit {
   private toastService = inject(ToastService);
   tipoItemAlugado = 'Jogo';
   consoles: string[] = [];
+  todosConsoles: string[] = [];
+  jogos: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -39,12 +41,20 @@ export class EditarClienteComponent implements OnInit {
     const idDaUrl = this.route.snapshot.paramMap.get('id');
     if (idDaUrl) { this.idCliente = idDaUrl; }
     this.acervoService.listar().subscribe(itens => {
-      const unique = new Set<string>();
+      const unique = new Set<string>([...CONSOLES]);
       itens.forEach(i => {
-        if (i.tipoItem === 'Console' && i.titulo) unique.add(i.titulo);
         if (i.tipoItem !== 'Console' && i.plataforma) unique.add(i.plataforma);
       });
-      this.consoles = Array.from(unique).sort();
+      this.todosConsoles = Array.from(unique).sort();
+
+      this.consoles = itens
+        .filter(i => i.tipoItem === 'Console' && i.titulo && i.status === 'Alugado')
+        .map(i => i.titulo)
+        .sort();
+      this.jogos = itens
+        .filter(i => i.tipoItem === 'Jogo' && i.titulo && i.status === 'Alugado')
+        .map(i => i.titulo + ' - ' + i.plataforma)
+        .sort();
       if (this.idCliente) { this.buscarCliente(); }
     });
   }
@@ -76,7 +86,7 @@ export class EditarClienteComponent implements OnInit {
   }
 
   private definirTipoItem(item: string | undefined) {
-    if (item && this.consoles.includes(item)) {
+    if (item && this.todosConsoles.includes(item)) {
       this.tipoItemAlugado = 'Console';
     } else {
       this.tipoItemAlugado = 'Jogo';
